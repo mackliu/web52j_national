@@ -7,6 +7,8 @@
     <title>學生資料表</title>
 </head>
 <body>
+<button><a href="create.php">新增學生資料</a></button>
+<hr>
 <?php
 $dsn="mysql:host=localhost;charset=utf8;dbname=school";
 $pdo=new PDO($dsn,'root','');
@@ -23,6 +25,11 @@ foreach($rows as  $value){
         echo "<td>".$value['birthday'] . "</td>";
         echo "<td>".$value['classroom'] . "</td>";
         echo "<td>".$value['score'] . "</td>";
+        echo "<td>";
+        echo "<a href='edit.php?id={$value['id']}'>編輯</a>";
+        echo "<a href='delete.php?id={$value['id']}'>刪除</a>";
+        
+        echo "</td>";
     echo "</tr>";
 }
 
