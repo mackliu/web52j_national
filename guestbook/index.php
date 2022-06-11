@@ -106,31 +106,35 @@
               Order BY `top` DESC, `created_time` DESC";
         $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
         foreach($rows as $row){
-            if($row['del']==1){
-                ?>
-                <div class="msg">
-                    已刪除
-                </div>
 
-                <?php
-            }else{
                 ?>
                 <div class="msg">
                     <div class="name"><?=$row['name'];?></div>
-                    <div class="content"><?=$row['msg'];?></div>
-                    <div class="created"><?=$row['created_time'];?></div>
-                    <?php 
+                    <?php
+                    if($row['del']==0){
+                        echo "<div class='content'>{$row['msg']}</div>";
+                        
                         if($row['show_tel']==1){
                             echo "<div class='tel'>{$row['tel']}</div>";
                         }
                         if($row['show_email']==1){
                             echo "<div class='email'>{$row['email']}</div>";
                         }
+                    }
+
                     ?>
+                    <div class="created"><?=$row['created_time'];?></div>
+                    <div>
+                        <?php
+                            if($row['del']==1){
+                                echo "已刪除";
+                            }
+                        ?>
+                    </div>
                 </div>
         
                 <?php
-                }    
+
             }
             ?>
     </div>
