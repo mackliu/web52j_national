@@ -83,7 +83,7 @@
     <div class="header-msg">遊客留言板區塊</div>
     <button onclick="$('.msg-form').show()">新增留言</button>
     <div class="msg-form">
-    <form action="add_msg.php" method="post" enctype="multipart/form-data">
+    <form id="addMsg" action="add_msg.php" method="post" enctype="multipart/form-data">
         <input type="button" value="回留言列表" onclick="$('.msg-form').hide()">
         <div>姓名:<input required type="text" name="name"></div>
         <div>E-mail:<input required type="text" name="email"></div>
@@ -113,7 +113,7 @@
                     <?php
                     if($row['del']==0){
                         echo "<div class='content'>{$row['msg']}</div>";
-                        
+
                         if($row['show_tel']==1){
                             echo "<div class='tel'>{$row['tel']}</div>";
                         }
@@ -146,7 +146,22 @@
 </body>
 </html>
 <script>
-
+$("#addMsg").on("submit",function(event){
+    event.preventDefault();
+    let serial=$("input[name='serial']").val();
+    if(serial.length<4){
+        alert("序號需要4位數字");
+    }else{
+        $.post('chk_serial.php',{serial},(res)=>{
+            if(parseInt(res)){
+                alert("序號重覆,請填寫其他序號");
+            }else{
+                event.target.submit()
+            }
+        })
+    }
+    
+})
 function login(){
     let acc=$("input[name='acc']").val();
     let pw=$("input[name='pw']").val();
