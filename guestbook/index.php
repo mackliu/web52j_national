@@ -49,10 +49,10 @@
     <form action="login.php" method="post">
         <div>帳號:<input type="text" name="acc"></div>
         <div>密碼:<input type="password" name="pw"></div>
-        <div>圖片驗證碼:<input type="text" name="chk"></div>
+        <div>圖片驗證碼:<input type="text" name="num"></div>
         <div>
             <div id="vernum"></div>
-            <div id="reset">驗證碼重新產生</div>
+            <div id="reset" onclick="makeNum()">驗證碼重新產生</div>
         </div>
         <div>
             <input type="button" value="送出" onclick="login()">
@@ -68,25 +68,38 @@
 function login(){
     let acc=$("input[name='acc']").val();
     let pw=$("input[name='pw']").val();
-    $.post('login.php',{acc,pw},(res)=>{
-        res=JSON.parse(res);
-        console.log(res)
-        if(res.status=='error'){
-            alert("帳號或密碼錯誤");
+    let num=$("input[name='num']").val();
+    $.post('chknum.php',{num},(res)=>{
+        if(res){
+            $.post('login.php',{acc,pw},(res)=>{
+            res=JSON.parse(res);
+            console.log(res)
+            if(res.status=='error'){
+                alert("帳號或密碼錯誤");
 
+            }else{
+               location.reload();
+            }
+            })
         }else{
-           location.reload();
+            alert("驗證碼錯誤請重新輸入")
+            makeNum()
         }
+
     })
+    /*  */
 }
 
 //登入畫面被呼叫時,同時去後端撈驗證碼
 $(".admin").on('click',()=>{
     $("#admin").show();
+    makeNum();
+})
+
+function makeNum(){
     $.get("vernum.php",(num)=>{
         $("#vernum").text(num)
     })
-})
-
+}
 
 </script>
