@@ -83,18 +83,18 @@
     <div class="header-msg">遊客留言板區塊</div>
     <button onclick="$('.msg-form').show()">新增留言</button>
     <div class="msg-form">
-    <form action="add_msg.php" method="post" onclick="$('.msg-form').hide()">
-        <input type="button" value="回留言列表">
-        <div>姓名:<input type="text" name="acc"></div>
-        <div>E-mail:<input type="password" name="pw"></div>
-        <div>電話:<input type="text" name="num"></div>
+    <form action="add_msg.php" method="post" enctype="multipart/form-data">
+        <input type="button" value="回留言列表" onclick="$('.msg-form').hide()">
+        <div>姓名:<input required type="text" name="name"></div>
+        <div>E-mail:<input required type="text" name="email"></div>
+        <div>電話:<input required type="tel" name="tel"></div>
         <div>留言內容:
-            <textarea name="msg" cols="30" rows="5"></textarea>
+            <textarea required name="msg" cols="30" rows="5"></textarea>
             <input type="file" name="img"> 
         </div>
-        <div>留言序號: <input type="text" name="serial"></div>
+        <div>留言序號: <input required type="text" name="serial"></div>
         <div>
-            <input type="button" value="送出" onclick="login()">
+            <input type="submit" value="送出">
             <input type="reset" value="重置">
         </div>
     </form>
@@ -108,6 +108,7 @@
 </body>
 </html>
 <script>
+
 function login(){
     let acc=$("input[name='acc']").val();
     let pw=$("input[name='pw']").val();
