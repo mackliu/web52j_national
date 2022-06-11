@@ -1,4 +1,4 @@
-<?php session_start();?>
+<?php include_once "db.php";?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -99,7 +99,41 @@
         </div>
     </form>
     </div>
-    dfadsfsfdsf
+    <div id="msg-list">
+        <?php
+        
+        $sql="SELECT * FROM `guestbook` 
+              Order BY `top` DESC, `created_time` DESC";
+        $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        foreach($rows as $row){
+            if($row['del']==1){
+                ?>
+                <div class="msg">
+                    已刪除
+                </div>
+
+                <?php
+            }else{
+                ?>
+                <div class="msg">
+                    <div class="name"><?=$row['name'];?></div>
+                    <div class="content"><?=$row['msg'];?></div>
+                    <div class="created"><?=$row['created_time'];?></div>
+                    <?php 
+                        if($row['show_tel']==1){
+                            echo "<div class='tel'>{$row['tel']}</div>";
+                        }
+                        if($row['show_email']==1){
+                            echo "<div class='email'>{$row['email']}</div>";
+                        }
+                    ?>
+                </div>
+        
+                <?php
+                }    
+            }
+            ?>
+    </div>
 
 </div>
 <div id="match">

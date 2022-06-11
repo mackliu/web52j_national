@@ -1,6 +1,6 @@
 <?php
-$dsn="mysql:host=localhost;charset=utf8;dbname=travel";
-$pdo=new PDO($dsn,'root','');
+include_once "db.php";
+
 $img='';
 if($_FILES['img']['error']==0){
     move_uploaded_file($_FILES['img']['tmp_name'],'./img/'.$_FILES['img']['name']);
