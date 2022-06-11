@@ -29,6 +29,25 @@
     #admin{
         display:none;
     }
+    #guestbook,#match{
+        border:1px solid #999;
+        margin:1rem auto;
+        width:100%;
+    }
+    .header-news,.header-msg{
+        text-align: center;
+    }
+    .header-news{
+        background:red;
+        color:white;
+    }
+    .header-msg{
+        background:pink;
+        color:black;
+    }
+    .msg-form{
+        display:none;
+    }
     </style>
 </head>
 <body>
@@ -60,8 +79,32 @@
         </div>
     </form>
 </div>
-<div id="guestbook"></div>
-<div id="match"></div>
+<div id="guestbook">
+    <div class="header-msg">遊客留言板區塊</div>
+    <button onclick="$('.msg-form').show()">新增留言</button>
+    <div class="msg-form">
+    <form action="add_msg.php" method="post" onclick="$('.msg-form').hide()">
+        <input type="button" value="回留言列表">
+        <div>姓名:<input type="text" name="acc"></div>
+        <div>E-mail:<input type="password" name="pw"></div>
+        <div>電話:<input type="text" name="num"></div>
+        <div>留言內容:
+            <textarea name="msg" cols="30" rows="5"></textarea>
+            <input type="file" name="img"> 
+        </div>
+        <div>留言序號: <input type="text" name="serial"></div>
+        <div>
+            <input type="button" value="送出" onclick="login()">
+            <input type="reset" value="重置">
+        </div>
+    </form>
+    </div>
+    dfadsfsfdsf
+
+</div>
+<div id="match">
+<div class="header-news">最新消息與遊客配對當公告區塊</div>
+</div>
 </body>
 </html>
 <script>
@@ -73,10 +116,8 @@ function login(){
         if(res){
             $.post('login.php',{acc,pw},(res)=>{
             res=JSON.parse(res);
-            console.log(res)
             if(res.status=='error'){
                 alert("帳號或密碼錯誤");
-
             }else{
                location.reload();
             }
@@ -87,7 +128,7 @@ function login(){
         }
 
     })
-    /*  */
+
 }
 
 //登入畫面被呼叫時,同時去後端撈驗證碼
