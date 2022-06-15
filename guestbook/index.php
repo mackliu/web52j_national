@@ -6,49 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>旅客留言板</title>
+    <link rel="stylesheet" href="./library/bootstrap.css">
     <script src="./library/jquery-3.6.0.min.js"></script>
-    <style>
-        *{
-            margin:0;
-            padding:0;
-            list-style-type:none;
-            box-sizing:border-box;
-        }
-        body{
-            width:1000px;
-            margin:auto;
-        }
-        nav{
-            display:flex;
-            justify-content: space-around;
-        }
-        nav div{
-            border:1px solid #ccc;
-            padding:1.5rem;
-        }
-    #admin{
-        display:none;
-    }
-    #guestbook,#match{
-        border:1px solid #999;
-        margin:1rem auto;
-        width:100%;
-    }
-    .header-news,.header-msg{
-        text-align: center;
-    }
-    .header-news{
-        background:red;
-        color:white;
-    }
-    .header-msg{
-        background:pink;
-        color:black;
-    }
-    .msg-form{
-        display:none;
-    }
-    </style>
+    <script src="./library/bootstrap.js"></script>
 </head>
 <body>
     <div>
@@ -58,12 +18,21 @@
         }
         ?>
     </div>
-<nav>
-<div>旅客留言</div>
-<div>旅遊搭當配對</div>
-<div class="admin">網站管理</div>
+<!--導覽列-->    
+<nav class="w-100 bg-info">
+<div class=" container d-flex justify-content-between py-3 ">
+    <div>
+        <div class="col-5">logo</div>
+    </div>
+    <div class="col-5 d-flex justify-content-between">
+        <a>旅客留言</a>
+        <a>旅遊搭當配對</a>
+        <a>網站管理</a>
+    </div>
+</div>
 </nav>
 
+<!--管理者登入-->
 <div id='admin'>
     <form action="login.php" method="post">
         <div>帳號:<input type="text" name="acc"></div>
@@ -79,10 +48,14 @@
         </div>
     </form>
 </div>
+
+<!--留言板區塊-->
 <div id="guestbook">
-    <div class="header-msg">遊客留言板區塊</div>
+    <div class="">遊客留言板區塊</div>
     <button onclick="$('.msg-form').show()">新增留言</button>
-    <div class="msg-form">
+
+    <!--新增留言區塊-->
+    <div>
     <form id="addMsg" action="add_msg.php" method="post" enctype="multipart/form-data">
         <input type="button" value="回留言列表" onclick="$('.msg-form').hide()">
         <div>姓名:<input required type="text" name="name"></div>
@@ -99,6 +72,8 @@
         </div>
     </form>
     </div>
+
+    <!--留言列表-->
     <div id="msg-list">
         <?php
         
@@ -140,8 +115,10 @@
     </div>
 
 </div>
+
+<!--最新消息與競賽配對區-->
 <div id="match">
-<div class="header-news">最新消息與遊客配對當公告區塊</div>
+<div class="">最新消息與競賽配對公告區塊</div>
 </div>
 </body>
 </html>
