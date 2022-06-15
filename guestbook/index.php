@@ -5,76 +5,108 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>旅客留言板</title>
+    <title>Shanghai Battle !</title>
     <link rel="stylesheet" href="./library/bootstrap.css">
     <script src="./library/jquery-3.6.0.min.js"></script>
     <script src="./library/bootstrap.js"></script>
+    <style>
+        header{
+            height:10rem;
+        }
+    </style>
 </head>
 <body>
-    <div>
-        <?php
-        if(isset($_SESSION['admin'])){
-            echo "管理者模式";
-        }
-        ?>
-    </div>
-<!--導覽列-->    
-<nav class="w-100 bg-info">
-<div class=" container d-flex justify-content-between py-3 ">
-    <div>
-        <div class="col-5">logo</div>
-    </div>
-    <div class="col-5 d-flex justify-content-between">
-        <a>旅客留言</a>
-        <a>旅遊搭當配對</a>
-        <a>網站管理</a>
-    </div>
-</div>
-</nav>
+    <?php
+    if(isset($_SESSION['admin'])){
+        echo "<div>";
+        echo "管理者模式";
+        echo "</div>";
+    }
+    ?>
 
-<!--管理者登入-->
-<div id='admin'>
-    <form action="login.php" method="post">
-        <div>帳號:<input type="text" name="acc"></div>
-        <div>密碼:<input type="password" name="pw"></div>
-        <div>圖片驗證碼:<input type="text" name="num"></div>
-        <div>
-            <div id="vernum"></div>
-            <div id="reset" onclick="makeNum()">驗證碼重新產生</div>
+<!--導覽列-->    
+<header class="bg-info w-100">
+    <h1 class="text-center">Weclome to Shanghai Battle!</h1>
+</header>
+<nav class="w-100 position-sticky sticky-top bg-info">
+    <div class=" container d-flex justify-content-between py-3">
+        <div class="col-5">
+            <div>Shanghai Battle !</div>
         </div>
-        <div>
-            <input type="button" value="送出" onclick="login()">
-            <input type="reset" value="重置">
+        <div class="col-5 d-flex justify-content-between">
+            <a>玩家留言</a>
+            <a>玩家參賽</a>
+            <a>網站管理</a>
+        </div>
+    </div>
+</nav>
+<!--管理者登入-->
+<div id='admin' class="container my-3">
+    <form action="login.php" method="post" class="p-5 mx-auto my-2 col-6">
+        <h2 class="text-center">管理者登入</h2>
+        <div class="form-group">
+            <label class="d-block" for="acc">帳號</label>
+            <input class="w-100 form-control" type="text" name="acc" id="acc">
+        </div>
+        <div class="form-group">
+            <label class="d-block" for="pw">密碼</label>
+            <input class="w-100 form-control" type="password" name="pw" id="pw">
+        </div>
+        <div class="form-group">
+            <label class="d-block" for="num">圖片驗證碼</label>
+            <input class="w-100 form-control" type="text" name="num" id="num">
+        </div>
+        <div class="d-flex">
+            <div id="vernum" class="bg-dark col-8"></div>
+            <div id="reset" class="btn btn-info col-4" onclick="makeNum()">驗證碼重新產生</div>
+        </div>
+        <div class="text-center my-2">
+            <input class="btn btn-primary" type="button" value="送出" onclick="login()">
+            <input class="btn btn-warning" type="reset" value="重置">
         </div>
     </form>
 </div>
 
 <!--留言板區塊-->
-<div id="guestbook">
-    <div class="">遊客留言板區塊</div>
-    <button onclick="$('.msg-form').show()">新增留言</button>
+<div id="guestbook" class="container">
+    <h1 class="text-center">遊客留言板區塊</h1>
+    <button class="btn btn-primary" onclick="$('.msg-form').show()">新增留言</button>
 
     <!--新增留言區塊-->
-    <div>
-    <form id="addMsg" action="add_msg.php" method="post" enctype="multipart/form-data">
-        <input type="button" value="回留言列表" onclick="$('.msg-form').hide()">
-        <div>姓名:<input required type="text" name="name"></div>
-        <div>E-mail:<input required type="text" name="email"></div>
-        <div>電話:<input required type="tel" name="tel"></div>
-        <div>留言內容:
-            <textarea required name="msg" cols="30" rows="5"></textarea>
-            <input type="file" name="img"> 
+    <div class="msg-form d-none">
+    <form id="addMsg" action="add_msg.php" method="post" enctype="multipart/form-data"  class="p-5 mx-auto my-2 col-6">
+        <h2 class="text-center">新增留言<input class="btn btn-info float-right" type="button" value="回留言列表" onclick="$('.msg-form').hide()"></h2>
+        <div class="input-group my-2">
+            <label class="justify-content-center col-3 input-group-text" for="name">姓名</label>
+            <input class="form-control" required type="text" name="name" id="name"></div>
+        <div class="input-group my-2">
+            <label class="justify-content-center col-3 input-group-text" for="email">E-mail</label>
+            <input class="form-control" required type="text" name="email" id="email"></div>
+        <div class="input-group my-2">
+            <label class="justify-content-center col-3 input-group-text" for="tel">電話</label>
+            <input class="form-control" required type="tel" name="tel" id="tel"></div>
+        <div class="input-group my-2">
+            <label class="justify-content-center col-3 input-group-text" for="msg">留言內容</label>
+            <input class="form-control" type="text" name="msg" id="msg" id="msg">
         </div>
-        <div>留言序號: <input required type="text" name="serial"></div>
-        <div>
-            <input type="submit" value="送出">
-            <input type="reset" value="重置">
+        <div class="input-group my-2">
+            <label class="justify-content-center col-3 input-group-text" for="img">上傳圖片</label>
+            <input class="form-control" type="file" name="img" id="img"> 
+        </div>
+        <div class="input-group my-2">
+            <label class="justify-content-center col-3 input-group-text" for="serial">留言序號</label>
+            <input class="form-control" required type="text" name="serial" id="serial">
+        </div>
+        <div class="text-center my-2">
+            <input class="btn btn-primary" type="submit" value="送出">
+            <input class="btn btn-warning" type="reset" value="重置">
+            
         </div>
     </form>
     </div>
 
     <!--留言列表-->
-    <div id="msg-list">
+    <div id="msg-list" class="container">
         <?php
         
         $sql="SELECT * FROM `guestbook` 
@@ -83,28 +115,44 @@
         foreach($rows as $row){
 
                 ?>
-                <div class="msg">
-                    <div class="name"><?=$row['name'];?></div>
-                    <?php
-                    if($row['del']==0){
-                        echo "<div class='content'>{$row['msg']}</div>";
-
-                        if($row['show_tel']==1){
-                            echo "<div class='tel'>{$row['tel']}</div>";
-                        }
-                        if($row['show_email']==1){
-                            echo "<div class='email'>{$row['email']}</div>";
-                        }
-                    }
-
-                    ?>
-                    <div class="created"><?=$row['created_time'];?></div>
-                    <div>
+                <div class="msg col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex">
+                    <div class="user-info col-3">
+                        <div src="" alt="" class="rounded-circle bg-light border-0" style="width:8rem;height:8rem"></div>
+                        <?=$row['name'];?>
+                    </div>
+                    <div class="user-msg col-9">
+                        <div class="time-info d-flex justify-content-between">
+                            <div>修改於:<?=$row['updated_time'];?></div>
+                            <div>發表於:<?=$row['created_time'];?></div>
+                        </div>
                         <?php
-                            if($row['del']==1){
-                                echo "已刪除";
-                            }
+                        if($row['del']==0){
+                            echo "<div class='content'>{$row['msg']}</div>";
+    
+                        }
+    
                         ?>
+                        <div class="user-containt d-flex justify-content-end">
+                           <?php
+                                if($row['del']==0){
+                                    if($row['show_tel']==1){
+                                        echo "<div class='mr-4'>tel:{$row['tel']}</div>";
+                                    }
+                                    if($row['show_email']==1){
+                                        echo "<div>email:{$row['email']}</div>";
+                                    }
+                                }
+
+                           ?> 
+                        
+                        </div>
+                        <div>
+                            <?php
+                                if($row['del']==1){
+                                    echo "已刪除";
+                                }
+                            ?>
+                        </div>
                     </div>
                 </div>
         
@@ -116,9 +164,10 @@
 
 </div>
 
-<!--最新消息與競賽配對區-->
-<div id="match">
-<div class="">最新消息與競賽配對公告區塊</div>
+<!--最新消息與參賽配對區-->
+<div id="match" class="container">
+<h2 class="text-center">最新消息與競賽配對公告區塊</div>
+
 </div>
 </body>
 </html>
