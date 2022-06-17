@@ -58,7 +58,7 @@
             <div class="col-5 d-flex justify-content-between text-white">
                 <a href="#guestboard">玩家留言</a>
                 <a href="#gameboard" onclick="$('.reg-form').removeClass('d-none')">玩家參賽</a>
-                <a href="#" onclick="$('#admin').removeClass('d-none')">網站管理</a>
+                <a href="#" onclick="$('#admin').removeClass('d-none');makeNum()">網站管理</a>
             </div>
         </div>
     </nav>
@@ -79,7 +79,7 @@
                 <input class="w-100 form-control" type="text" name="num" id="num">
             </div>
             <div class="d-flex">
-                <div id="vernum" class="bg-dark col-8"></div>
+                <div id="vernum" class="bg-light col-8"></div>
                 <div id="reset" class="btn btn-info col-4" onclick="makeNum()">驗證碼重新產生</div>
             </div>
             <div class="text-center my-2">
