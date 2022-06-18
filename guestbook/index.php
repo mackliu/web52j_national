@@ -74,7 +74,9 @@
                 <input class="w-100 form-control" type="text" name="num" id="num">
             </div>
             <div class="d-flex">
-                <div id="vernum" class="bg-light col-8"></div>
+                <div id="vernum" class="bg-light col-8">
+                    <canvas id="numboard"></canvas>
+                </div>
                 <div id="reset" class="btn btn-info col-4" onclick="makeNum()">驗證碼重新產生</div>
             </div>
             <div class="text-center my-2">
@@ -108,6 +110,13 @@
                         foreach($rows as $row){
                     ?>
                     <div class="msg position-relative col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex" style="min-height:6rem">
+                        <!--TOP顯示-->
+                        <?php if($row['top']==1){
+                        ?>
+                            <div class="position-absolute d-flex justify-content-center bg-primary text-white align-items-center" style="width:3rem;height:3rem;z-index:99;top:-0.15rem;left:-0.15rem">TOP</div>
+                        <?php
+                        }
+                        ?>
                          <div class="user-edit position-absolute p-3" style="right:0;background:rgba(100,200,255,0.7);z-index:99;display:none">
                             <input type="number" name="serial" class="edit-num d-block">
                             <button class="btn-edit btn btn-warning" data-name="<?=$row['name']?>" data-id="<?=$row['id'];?>" >編輯</button>
@@ -342,7 +351,50 @@ $(".admin").on('click', () => {
 
 function makeNum() {
     $.get("vernum.php", (num) => {
-        $("#vernum").text(num)
+        cav(num)
+        //$("#vernum").text(num)
     })
+}
+function cav(str){
+let canvas=document.getElementById('numboard');
+let ctx=canvas.getContext('2d');
+ctx.clearRect(0, 0, canvas.width, canvas.height);
+let height=42;
+let width=$("#vernum").width();
+canvas.height=height;
+canvas.width=width;
+
+ctx.font="36px Arial";
+ctx.fillStyle="#000000";
+ctx.textBaseline="top";
+strgap=(width)/4;
+let color=['#0000FF','#00FF00','#FF0000','#f9dc0e','#c76104','#b800f4'];
+for(let i=0;i<str.length;i++){
+    let char=str.substr(i,1);
+    let charWidth=ctx.measureText(char)
+    let strX=Math.random()*((strgap-charWidth.width)/2)+(strgap*i);
+    let strY=Math.random()*10;
+
+    color.sort(() => Math.random() - 0.5);
+    ctx.fillStyle=color.pop();
+    ctx.fillText(char,strX,strY)
+}
+color=['#0000FF','#00FF00','#FF0000','#f9dc0e','#c76104','#b800f4']
+let lines=Math.floor(Math.random()*3+3)
+for(let i=0;i<lines;i++){
+    color.sort(() => Math.random() - 0.5);
+    ctx.lineWidth=0.5;
+    ctx.strokeStyle=color.pop();
+    ctx.beginPath()
+    let startTop=Math.floor(Math.random()*height);
+    let startLeft=Math.floor(Math.random()*50)
+    let endTop=Math.floor(Math.random()*height);
+    let endRight=Math.floor(Math.random()*50+width-50)
+    ctx.moveTo(startLeft,startTop)
+    ctx.lineTo(endRight,endTop)
+    ctx.closePath()
+    ctx.stroke()
+}
+
 }
 </script>

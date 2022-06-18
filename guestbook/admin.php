@@ -95,7 +95,7 @@
             <!--留言內容區-->
             <div id="guestbook" class="container">
                 <h2 class="text-center">遊客留言板</h2>
-                <button class="btn btn-primary" id="addNewMsg">新增留言</button>
+
 
                 <!--新增留言區塊-->
                 <div class="msg-form d-none">
@@ -111,10 +111,25 @@
                         foreach($rows as $row){
                     ?>
                     <div class="msg position-relative col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex" style="min-height:10rem">
+                        <!--TOP顯示-->
+                        <?php if($row['top']==1){
+                        ?>
+                            <div class="position-absolute d-flex justify-content-center bg-primary text-white align-items-center" style="width:3rem;height:3rem;z-index:99;top:-0.15rem;left:-0.15rem">TOP</div>
+                        
+                        <?php
+                        }
+                        ?>
+                        <!--管理者功能區-->
+                        <div class="admin-btns text-right position-absolute" style="z-index:10;right:5px">
+                            <span class="mx-2 post-top" data-id="<?=$row['id'];?>"><i class="fas fa-sort-amount-up"></i></span>
+                            <span class="mx-2 admin-reply"><i class="fas fa-reply"></i></span>
+                            <span class="mx-2 " onclick="delMsg(<?=$row['id'];?>)"><i class="fas fa-trash"></i></span>
+                        </div>
+                        <!--回覆留言表單-->     
                          <div class="user-edit position-absolute p-3" style="right:0;background:rgba(100,200,255,0.7);z-index:99;display:none">
                             <input type="text" name="admin_reply" class="edit-reply d-block" style="width:20rem">
                             <button class="btn-edit btn btn-warning" data-id="<?=$row['id'];?>" >回覆</button>
-                            <button class="btn-del btn btn-danger" data-id="<?=$row['id'];?>" >取消</button>
+                            <button class="btn-cancel btn btn-danger" data-id="<?=$row['id'];?>" >取消</button>
                          </div>   
                         <!--右側-->
                         <div class="user-info col-2">
@@ -143,7 +158,7 @@
                                 ?>
                             </div>
                         </div>
-                        <div class="user-msg col-9 position-relative">
+                        <div class="user-msg col-10 position-relative">
 
                             <div class="col-12">
                                 <!--顯示玩家留言-->
@@ -188,11 +203,7 @@
                                     </div>
                                     <div>發表於:<?=$row['created_time'];?></div>
                                 </div>
-                                <!--管理者功能區-->
-                                <div>
-                                <button class="btn btn-success float-right admin-reply btn-sm">回覆留言</button>
-                                <button class="btn btn-danger float-right btn-sm" onclick="delMsg(<?=$row['id'];?>)">刪除留言</button>
-                                </div>
+
                             </div>
                         </div>
                     </div>
@@ -257,6 +268,12 @@ $("#addNewMsg").on("click",()=>{
     })
 })
 
+$(".post-top").on("click",function(){
+    let id=$(this).data('id');
+    $.post('post_top.php',{id},()=>{
+        location.reload();
+    })
+})
 $(".edit-icon").on("click",function(){
     let id=$(this).data('id')
     $.get("msg_form.php",{id},(form)=>{
@@ -266,7 +283,7 @@ $(".edit-icon").on("click",function(){
 })
 
 $(".admin-reply").on("click",function(){
-    $(this).parents('.user-msg').siblings('.user-edit').show();
+    $(this).parents('.admin-btns').siblings('.user-edit').show();
 })
 
 $(".btn-edit").on("click",function(){
@@ -279,18 +296,8 @@ $(".btn-edit").on("click",function(){
     
 })
 
-$(".btn-del").on("click",function(){
-    let name=$(this).data('name')
-    let id=$(this).data('id')
-    let serial=$(this).siblings('.edit-num').val()
-    $.post("chk_serial.php",{name,serial},(res)=>{
-        console.log(res)
-        if(parseInt(res)===1){
-            $.post("user_del.php",{id},()=>{ location.reload() })
-        }else{
-            alert('序號錯誤')
-        }
-    })
+$(".btn-cancel").on("click",function(){
+    $(this).parents('.user-edit').hide()
 })
 function delMsg(id){
     $.post('admin_del.php',{id},()=>{

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-06-11 10:29:11
+-- 產生時間： 2022-06-18 10:13:49
 -- 伺服器版本： 10.4.24-MariaDB
 -- PHP 版本： 8.1.6
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- 資料庫： `travel`
+-- 資料庫： `game`
 --
 
 -- --------------------------------------------------------
@@ -33,6 +33,7 @@ CREATE TABLE `guestbook` (
   `email` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `tel` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
   `msg` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `admin_reply` varchar(128) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `serial` int(4) NOT NULL,
   `img` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `show_email` tinyint(1) NOT NULL DEFAULT 1,
@@ -47,12 +48,25 @@ CREATE TABLE `guestbook` (
 -- 傾印資料表的資料 `guestbook`
 --
 
-INSERT INTO `guestbook` (`id`, `name`, `email`, `tel`, `msg`, `serial`, `img`, `show_email`, `show_tel`, `del`, `top`, `created_time`, `updated_time`) VALUES
-(1, 'mack', 'mack@gmail.com', '1232131313', '今天天氣不錯哦\r\n想出去玩', 1111, '', 1, 1, 0, 1, '2022-06-11 07:06:39', '2022-06-11 07:40:45'),
-(2, 'mack', 'mack@gmail.com', '2132131213', 'dfasdfasfdsfd\r\nfdsfasdf', 1112, '', 1, 1, 0, 0, '2022-06-11 07:07:25', '2022-06-11 07:53:50'),
-(3, 'mack', 'mack@gmail.com', '2132131213', 'fdsfasdfsdaf\r\ndsfafsaf', 123, 'img11.jpg', 1, 1, 0, 0, '2022-06-11 07:09:20', '2022-06-11 08:03:25'),
-(4, 'dfdsf', 'dfasf', 'dsfadsf', 'dsfasfsdf\r\ndfasdfas', 2221, '', 1, 1, 0, 0, '2022-06-11 08:08:18', '2022-06-11 08:08:18'),
-(6, 'mack', 'john@123.com', '2132131213', 'dsfasdfadsf', 9999, '', 1, 1, 0, 0, '2022-06-11 08:27:48', '2022-06-11 08:27:48');
+INSERT INTO `guestbook` (`id`, `name`, `email`, `tel`, `msg`, `admin_reply`, `serial`, `img`, `show_email`, `show_tel`, `del`, `top`, `created_time`, `updated_time`) VALUES
+(3, 'mack', 'mack@gmail.com', '2132131213', 'fdsfasdfsdaf\r\ndsfafsaf', NULL, 123, 'img11.jpg', 1, 1, 0, 0, '2022-06-11 07:09:20', '2022-06-11 08:03:25'),
+(12, 'john', 'mack@gmail.com', '11111111', '這是留言測試2', '管理者回覆', 1234, '', 1, 1, 0, 1, '2022-06-18 05:59:41', '2022-06-18 07:50:32'),
+(13, 'shelly', 'shell@dfasdf', '132313', 'dsfasdfasdfasdfdasfds', NULL, 2222, '', 1, 1, 0, 0, '2022-06-18 07:57:07', '2022-06-18 07:57:07');
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `match_player`
+--
+
+CREATE TABLE `match_player` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `name` varchar(16) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tel` varchar(12) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `img` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `player` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- 已傾印資料表的索引
@@ -65,6 +79,12 @@ ALTER TABLE `guestbook`
   ADD PRIMARY KEY (`id`);
 
 --
+-- 資料表索引 `match_player`
+--
+ALTER TABLE `match_player`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- 在傾印的資料表使用自動遞增(AUTO_INCREMENT)
 --
 
@@ -72,7 +92,13 @@ ALTER TABLE `guestbook`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `guestbook`
 --
 ALTER TABLE `guestbook`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- 使用資料表自動遞增(AUTO_INCREMENT) `match_player`
+--
+ALTER TABLE `match_player`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
