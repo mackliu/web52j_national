@@ -145,6 +145,13 @@
                             <div class="col-12">
                                 <!--顯示玩家留言-->
                             <?=($row['del']==0)?$row['msg']:"<span class='text-danger'>**玩家已自行刪除內容**</span>"?>
+                            <?php
+                                if($row['admin_reply']!=''){
+                                    echo "<hr style='width:85%'>";
+                                    echo "管理者回覆:";
+                                    echo $row['admin_reply'];
+                                }
+                            ?>  
                             </div>
 
                             <!--留言區底部資訊區-->
