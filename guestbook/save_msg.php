@@ -9,10 +9,15 @@ if($_FILES['img']['error']==0){
     $img=$_FILES['img']['name'];
 }
 
+$show_email=(isset($_POST['show_email']))?1:0;
+$show_tel=(isset($_POST['show_tel']))?1:0;
+
 $sql="UPDATE `guestbook` 
       SET `name`='{$_POST['name']}',
           `email`='{$_POST['email']}',
           `tel`='{$_POST['tel']}',
+          `show_email`='$show_email',
+          `show_tel`='$show_tel',
           `msg`='{$_POST['msg']}',
           `serial`='{$_POST['serial']}',
           `img`='$img'

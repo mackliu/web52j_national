@@ -27,11 +27,56 @@ if(isset($id)){
     </div>
     <div class="input-group my-2">
         <label class="justify-content-center col-3 input-group-text" for="email">E-mail</label>
-        <input class="form-control" required type="text" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
+        <?php
+        if(isset($id) && $msg['show_email']==1){
+            ?>
+            <input class="form-control" required type="text" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
+        <?php
+        }else if(isset($id) && $msg['show_email']==0){
+        ?>
+        <input class="form-control" required type="password" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
+        <?php
+        }else{        
+        ?>
+        <input class="form-control" required type="text" name="email" id="email" value="">
+        <?php
+        }
+        ?>
+        <?php 
+        if(isset($id)){
+        ?>
+            <input type="checkbox" name="show_email" value="1" <?=($msg['show_email']==1)?'checked':'';?>>
+            顯示
+        <?php
+        }
+        ?>
     </div>
     <div class="input-group my-2">
         <label class="justify-content-center col-3 input-group-text" for="tel">電話</label>
-        <input class="form-control" required type="tel" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
+        <?php
+        if(isset($id) && $msg['show_email']==1){
+        ?>
+            <input class="form-control" required type="tel" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
+        <?php   
+        }else if(isset($id) && $msg['show_email']==0){
+        ?>
+            <input class="form-control" required type="password" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
+        <?php
+        }else{
+        ?>
+            <input class="form-control" required type="tel" name="tel" id="tel" value="">
+        <?php
+        }
+        ?>
+
+        <?php 
+        if(isset($id)){
+        ?>
+            <input type="checkbox" name="show_tel" value="1" <?=($msg['show_tel']==1)?'checked':'';?>>
+            顯示
+        <?php
+        }
+        ?>
     </div>
     <div class="input-group my-2">
         <label class="justify-content-center col-3 input-group-text" for="msg">留言內容</label>
