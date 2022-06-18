@@ -6,9 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shanghai Battle !</title>
+    <title>Shanghai Battle !-Admin</title>
     <link rel="stylesheet" href="./library/bootstrap.css">
-    <link rel="stylesheet" href="./library/fontawesome/fontawesome.css">
     <script src="./library/jquery-3.6.0.min.js"></script>
     <script src="./library/bootstrap.js"></script>
     <style>
@@ -73,7 +72,11 @@
             </div>
         </form>
     </div>
-
+    <!--後台管理按鈕-->
+    <div class="text-center">
+        <button class="btn btn-primary">留言管理</button>
+        <button class="btn btn-primary">賽制管理</button>
+    </div>
     <!--留言板區塊-->
     <a name="guestboard">
         <!--留言區橫幅-->
@@ -115,7 +118,7 @@
                             <input class="form-control" required type="text" name="serial" id="serial">
                         </div>
                         <div class="text-center my-2">
-                            <input class="btn btn-primary" type="button" value="送出" onclick="send()">
+                            <input class="btn btn-primary" type="submit" value="送出">
                             <input class="btn btn-warning" type="reset" value="重置">
 
                         </div>
@@ -130,12 +133,7 @@
                         $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
                         foreach($rows as $row){
                     ?>
-                    <div class="msg position-relative col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex" style="min-height:6rem">
-                         <div class="user-edit position-absolute p-3" style="right:0;background:rgba(100,200,255,0.7);z-index:99;display:none">
-                            <input type="number" name="serial" class="edit-num d-block">
-                            <button class="btn-edit btn btn-warning" data-name="<?=$row['name']?>" data-id="<?=$row['id'];?>" >編輯</button>
-                            <button class="btn-del btn btn-danger"  data-name="<?=$row['name']?>" data-id="<?=$row['id'];?>" >刪除</button>
-                         </div>   
+                    <div class="msg col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex">
                         <!--右側-->
                         <div class="user-info col-2">
                             <!--顯示圖片或替代圖片-->
@@ -150,10 +148,7 @@
                             ?>
                             <!--顯示玩家名字並置中-->
                             <div class="text-center m-1">
-                                <?=$row['name'];?>&nbsp;
-                                <span class="edit-icon">
-                                    <i class="fas fa-edit "></i>
-                                </span>
+                                <?=$row['name'];?>
                             </div>
                         </div>
                         <div class="user-msg col-9 position-relative">
@@ -164,7 +159,7 @@
                             if($row['del']==0){
                                 echo $row['msg'];
                             }else{
-                                echo "玩家已自行刪除內容";
+                                echo "**玩家已自行刪除內容**";
                             }
                             ?>
                             </div>
@@ -187,20 +182,18 @@
                                 </div>
                                 <!--顯示留言時間-->
                                 <div class="time-info d-flex justify-content-between px-2">
-                                    <div>
                                     <?php
-                                    if($row['del']==1){
+                                    if($row['del']==0){
                                      ?>
-                                     刪除於:<?=$row['updated_time'];?>
+                                     <div>刪除於:<?=$row['updated_time'];?></div>
                                      
                                      <?php
                                     }elseif($row['created_time']!=$row['updated_time']){
                                     ?>
-                                     修改於:<?=$row['updated_time'];?>
+                                     <div>修改於:<?=$row['updated_time'];?></div>
                                     <?php
                                     }
                                     ?>
-                                    </div>
                                     <div>發表於:<?=$row['created_time'];?></div>
                                 </div>
                             </div>
@@ -227,19 +220,19 @@
                         <h2 class="text-center">玩家參賽</h2>
                         <div class="input-group my-2">
                             <label class="justify-content-center col-3 input-group-text" for="name">姓名</label>
-                            <input class="form-control" required type="text" name="name" id="reg_name">
+                            <input class="form-control" required type="text" name="name" id="name">
                         </div>
                         <div class="input-group my-2">
                             <label class="justify-content-center col-3 input-group-text" for="email">E-mail</label>
-                            <input class="form-control" required type="text" name="email" id="reg_email">
+                            <input class="form-control" required type="text" name="email" id="email">
                         </div>
                         <div class="input-group my-2">
                             <label class="justify-content-center col-3 input-group-text" for="tel">電話</label>
-                            <input class="form-control" required type="tel" name="tel" id="reg_tel">
+                            <input class="form-control" required type="tel" name="tel" id="tel">
                         </div>
                         <div class="input-group my-2">
                             <label class="justify-content-center col-3 input-group-text" for="img">上傳頭像</label>
-                            <input class="form-control" type="file" name="img" id="reg_img">
+                            <input class="form-control" type="file" name="img" id="img">
                         </div>
                         <div class="text-center my-2">
                             <input class="btn btn-primary" type="submit" value="參賽">
@@ -263,49 +256,24 @@
 
 </html>
 <script>
-$(".edit-icon").on("click",function(){
-    console.log($(this).parent())
-    $(this).parents('.user-info').siblings('.user-edit').show();
-})
-
-$(".btn-edit").on("click",function(){
-    let name=$(this).data('name')
-    let id=$(this).data('id')
-    let serial=$(this).siblings('.edit-num').val()
-    $.post("chk_serial.php",{name,serial},(res)=>{
-        console.log(res)
-        if(parseInt(res)===1){
-            console.log('可以編輯')
-        }else{
-            console.log('序號錯誤')
-        }
-    })
-    
-})
-
-$(".btn-del").on("click",function(){
-
-})
-
-function send(){
-    let serial = $("#addMsg input[name='serial']").val();
-    let name=$("#addMsg input[name='name']").val();
-    console.log(serial,name)
-    if (serial.length != 4) {
-        alert("序號只能4位數字");
-    }else{
-       $.post('chk_name.php', {
-            name
+$("#addMsg").on("submit", function(event) {
+    event.preventDefault();
+    let serial = $("input[name='serial']").val();
+    if (serial.length < 4) {
+        alert("序號需要4位數字");
+    } else {
+        $.post('chk_serial.php', {
+            serial
         }, (res) => {
             if (parseInt(res)) {
-                alert("姓名重覆");
+                alert("序號重覆,請填寫其他序號");
             } else {
-                $("#addMsg").submit()
+                event.target.submit()
             }
-        }) 
-    } 
+        })
+    }
 
-}
+})
 
 function login() {
     let acc = $("input[name='acc']").val();
@@ -323,7 +291,7 @@ function login() {
                 if (res.status == 'error') {
                     alert("帳號或密碼錯誤");
                 } else {
-                    location.href='admin.php';
+                    location.reload();
                 }
             })
         } else {
