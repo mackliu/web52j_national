@@ -1,5 +1,5 @@
 <?php
-    $dsn="mysql:host=localhost;charset=utf8;dbname=th52j17_national";
+    $dsn="mysql:host=localhost;charset=utf8;dbname=game";
     $pdo=new PDO($dsn,'root','');
     session_start();
 

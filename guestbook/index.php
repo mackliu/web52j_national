@@ -15,18 +15,10 @@
         height: 50vh;
     }
 
-    nav {
-        height: 4rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
     nav a{
         color:white;
     }
-    .top-padding {
-        padding-top: 12vh;
-    }
+
     .bg-img{
         background-size:cover;
         background-repeat:no-repeat;
@@ -36,7 +28,7 @@
     </style>
 </head>
 
-<body>
+<body style="padding-top:3.5rem">
     <?php
     if(isset($_SESSION['admin'])){
         echo "<div>";
@@ -49,9 +41,9 @@
     <header class="bg-info w-100 ">
         <h1 class="text-center">Weclome to Shanghai Battle!</h1>
     </header>
-    <nav class="w-100 position-fixed fixed-top bg-info">
+    <nav class="w-100 position-fixed fixed-top bg-info" style="height:3.5rem">
         <!-- <nav class="w-100 position-sticky sticky-top bg-info"> -->
-        <div class=" container d-flex justify-content-between align-items-center">
+        <div class=" container d-flex h-100 justify-content-between align-items-center">
             <div class="col-5">
                 <div>Shanghai Battle !</div>
             </div>
@@ -92,7 +84,7 @@
     <!--留言板區塊-->
     <a name="guestboard">
         <!--留言區橫幅-->
-        <div class="vh-100 top-padding">
+        <div class="vh-100">
 
             <!--留言內容區-->
             <div id="guestbook" class="container">
@@ -213,7 +205,7 @@
 
         <!--最新消息與參賽配對區-->
         <a name="gameboard">
-            <div class="vh-100  top-padding mt-5">
+            <div class="vh-100 mt-5">
                 <!--報名參賽表單-->
                 <div class="reg-form d-none">
                     <form id="regUser" action="reg_user.php" method="post" enctype="multipart/form-data"
