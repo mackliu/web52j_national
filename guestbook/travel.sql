@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： 127.0.0.1
--- 產生時間： 2022-06-11 09:10:23
+-- 產生時間： 2022-06-11 10:29:11
 -- 伺服器版本： 10.4.24-MariaDB
 -- PHP 版本： 8.1.6
 
@@ -48,9 +48,11 @@ CREATE TABLE `guestbook` (
 --
 
 INSERT INTO `guestbook` (`id`, `name`, `email`, `tel`, `msg`, `serial`, `img`, `show_email`, `show_tel`, `del`, `top`, `created_time`, `updated_time`) VALUES
-(1, 'mack', 'mack@gmail.com', '1232131313', '今天天氣不錯哦\r\n想出去玩', 1111, '', 1, 1, 0, 0, '2022-06-11 07:06:39', '2022-06-11 07:06:39'),
-(2, 'mack', 'mack@gmail.com', '2132131213', 'dfasdfasfdsfd\r\nfdsfasdf', 1112, '', 1, 1, 0, 0, '2022-06-11 07:07:25', '2022-06-11 07:07:25'),
-(3, 'mack', 'mack@gmail.com', '2132131213', 'fdsfasdfsdaf\r\ndsfafsaf', 123, 'img11.jpg', 1, 1, 0, 0, '2022-06-11 07:09:20', '2022-06-11 07:09:20');
+(1, 'mack', 'mack@gmail.com', '1232131313', '今天天氣不錯哦\r\n想出去玩', 1111, '', 1, 1, 0, 1, '2022-06-11 07:06:39', '2022-06-11 07:40:45'),
+(2, 'mack', 'mack@gmail.com', '2132131213', 'dfasdfasfdsfd\r\nfdsfasdf', 1112, '', 1, 1, 0, 0, '2022-06-11 07:07:25', '2022-06-11 07:53:50'),
+(3, 'mack', 'mack@gmail.com', '2132131213', 'fdsfasdfsdaf\r\ndsfafsaf', 123, 'img11.jpg', 1, 1, 0, 0, '2022-06-11 07:09:20', '2022-06-11 08:03:25'),
+(4, 'dfdsf', 'dfasf', 'dsfadsf', 'dsfasfsdf\r\ndfasdfas', 2221, '', 1, 1, 0, 0, '2022-06-11 08:08:18', '2022-06-11 08:08:18'),
+(6, 'mack', 'john@123.com', '2132131213', 'dsfasdfadsf', 9999, '', 1, 1, 0, 0, '2022-06-11 08:27:48', '2022-06-11 08:27:48');
 
 --
 -- 已傾印資料表的索引
@@ -70,7 +72,7 @@ ALTER TABLE `guestbook`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `guestbook`
 --
 ALTER TABLE `guestbook`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
