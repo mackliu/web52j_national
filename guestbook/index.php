@@ -14,6 +14,16 @@
     <style>
     header {
         height: 50vh;
+        background:url('./img/main.jpg');
+        background-repeat: no-repeat;
+        background-size:cover;
+        background-position:center;
+        color:white;
+        text-shadow: 2px 2px 15px #ccc;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+
     }
 
     nav a{
@@ -77,53 +87,20 @@
     <!--留言板區塊-->
     <a name="guestboard">
         <!--留言區橫幅-->
-        <div class="vh-100">
+        <div class="vh-100 overflow-hidden">
 
             <!--留言內容區-->
             <div id="guestbook" class="container">
                 <h2 class="text-center">遊客留言板</h2>
-                <button class="btn btn-primary" onclick="$('.msg-form').removeClass('d-none')">新增留言</button>
+                <button class="btn btn-primary" id="addNewMsg">新增留言</button>
 
                 <!--新增留言區塊-->
                 <div class="msg-form d-none">
-                    <form id="addMsg" action="add_msg.php" method="post" enctype="multipart/form-data"
-                        class="p-5 mx-auto my-2 col-6">
-                        <h2 class="text-center">新增留言<input class="btn btn-info float-right" type="button" value="回留言列表"
-                                onclick="$('.msg-form').addClass('d-none')"></h2>
-                        <div class="input-group my-2">
-                            <label class="justify-content-center col-3 input-group-text" for="name">姓名</label>
-                            <input class="form-control" required type="text" name="name" id="name">
-                        </div>
-                        <div class="input-group my-2">
-                            <label class="justify-content-center col-3 input-group-text" for="email">E-mail</label>
-                            <input class="form-control" required type="text" name="email" id="email">
-                        </div>
-                        <div class="input-group my-2">
-                            <label class="justify-content-center col-3 input-group-text" for="tel">電話</label>
-                            <input class="form-control" required type="tel" name="tel" id="tel">
-                        </div>
-                        <div class="input-group my-2">
-                            <label class="justify-content-center col-3 input-group-text" for="msg">留言內容</label>
-                            <input class="form-control" type="text" name="msg" id="msg" id="msg">
-                        </div>
-                        <div class="input-group my-2">
-                            <label class="justify-content-center col-3 input-group-text" for="img">上傳圖片</label>
-                            <input class="form-control" type="file" name="img" id="img">
-                        </div>
-                        <div class="input-group my-2">
-                            <label class="justify-content-center col-3 input-group-text" for="serial">留言序號</label>
-                            <input class="form-control" required type="text" name="serial" id="serial">
-                        </div>
-                        <div class="text-center my-2">
-                            <input class="btn btn-primary" type="button" value="送出" onclick="send()">
-                            <input class="btn btn-warning" type="reset" value="重置">
 
-                        </div>
-                    </form>
                 </div>
 
                 <!--留言列表-->
-                <div id="msg-list" class="container overflow-auto h-75 border rounded-lg bg-light py-5 my-3">
+                <div id="msg-list" class="container overflow-auto border rounded-lg bg-light py-5 my-3" style="height:75vh">
                     <?php
                         $sql="SELECT * FROM `guestbook` 
                               Order BY `top` DESC, `created_time` DESC";
@@ -151,22 +128,23 @@
                             <!--顯示玩家名字並置中-->
                             <div class="text-center m-1">
                                 <?=$row['name'];?>&nbsp;
+                                <?php 
+                                if($row['del']==0){
+                                ?>
                                 <span class="edit-icon">
                                     <i class="fas fa-edit "></i>
                                 </span>
+                                
+                                <?php
+                                }
+                                ?>
                             </div>
                         </div>
                         <div class="user-msg col-9 position-relative">
 
                             <div class="col-12">
                                 <!--顯示玩家留言-->
-                            <?php
-                            if($row['del']==0){
-                                echo $row['msg'];
-                            }else{
-                                echo "玩家已自行刪除內容";
-                            }
-                            ?>
+                            <?=($row['del']==0)?$row['msg']:"<span class='text-danger'>**玩家已自行刪除內容**</span>"?>
                             </div>
 
                             <!--留言區底部資訊區-->
@@ -176,10 +154,10 @@
                                     <?php
                                     if($row['del']==0){
                                         if($row['show_tel']==1){
-                                            echo "<div class='mr-4'>tel:{$row['tel']}</div>";
+                                            echo "<div class='mr-4'><i class='fas fa-phone'></i> : {$row['tel']}</div>";
                                         }
                                         if($row['show_email']==1){
-                                            echo "<div>email:{$row['email']}</div>";
+                                            echo "<div><i class='fas fa-envelope'></i> : {$row['email']}</div>";
                                         }
                                     }
     
@@ -188,28 +166,20 @@
                                 <!--顯示留言時間-->
                                 <div class="time-info d-flex justify-content-between px-2">
                                     <div>
-                                    <?php
-                                    if($row['del']==1){
-                                     ?>
+                                    <?php if($row['del']==1){  ?>
                                      刪除於:<?=$row['updated_time'];?>
-                                     
-                                     <?php
+                                    <?php
                                     }elseif($row['created_time']!=$row['updated_time']){
                                     ?>
                                      修改於:<?=$row['updated_time'];?>
-                                    <?php
-                                    }
-                                    ?>
+                                    <?php  } ?>
                                     </div>
                                     <div>發表於:<?=$row['created_time'];?></div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
-
                     <?php
-
             }
             ?>
                 </div>
@@ -219,7 +189,7 @@
 
         <!--最新消息與參賽配對區-->
         <a name="gameboard">
-            <div class="vh-100 mt-5">
+            <div class="vh-100  overflow-hidden">
                 <!--報名參賽表單-->
                 <div class="reg-form d-none">
                     <form id="regUser" action="reg_user.php" method="post" enctype="multipart/form-data"
@@ -263,8 +233,14 @@
 
 </html>
 <script>
+$("#addNewMsg").on("click",()=>{
+    $.get("msg_form.php",(form)=>{
+        $(".msg-form").html(form)
+        $(".msg-form").removeClass("d-none")
+    })
+})
+
 $(".edit-icon").on("click",function(){
-    console.log($(this).parent())
     $(this).parents('.user-info').siblings('.user-edit').show();
 })
 
@@ -275,7 +251,10 @@ $(".btn-edit").on("click",function(){
     $.post("chk_serial.php",{name,serial},(res)=>{
         console.log(res)
         if(parseInt(res)===1){
-            console.log('可以編輯')
+           $.get("msg_form.php",{id},(form)=>{
+                $(".msg-form").html(form)
+                $(".msg-form").removeClass('d-none')
+           })
         }else{
             console.log('序號錯誤')
         }
@@ -284,25 +263,38 @@ $(".btn-edit").on("click",function(){
 })
 
 $(".btn-del").on("click",function(){
-
+    let name=$(this).data('name')
+    let id=$(this).data('id')
+    let serial=$(this).siblings('.edit-num').val()
+    $.post("chk_serial.php",{name,serial},(res)=>{
+        console.log(res)
+        if(parseInt(res)===1){
+            $.post("user_del.php",{id},()=>{ location.reload() })
+        }else{
+            alert('序號錯誤')
+        }
+    })
 })
 
-function send(){
+function send(type){
     let serial = $("#addMsg input[name='serial']").val();
     let name=$("#addMsg input[name='name']").val();
-    console.log(serial,name)
     if (serial.length != 4) {
         alert("序號只能4位數字");
     }else{
-       $.post('chk_name.php', {
-            name
-        }, (res) => {
-            if (parseInt(res)) {
-                alert("姓名重覆");
-            } else {
-                $("#addMsg").submit()
-            }
-        }) 
+        if(type=='add'){
+            $.post('chk_name.php', {
+                 name
+             }, (res) => {
+                 if (parseInt(res)) {
+                     alert("姓名重覆");
+                 } else {
+                     $("#addMsg").submit()
+                 }
+             }) 
+        }else{
+            $("#addMsg").submit()
+        }
     } 
 
 }

@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shanghai Battle !-Admin</title>
     <link rel="stylesheet" href="./library/bootstrap.css">
+    <link rel="stylesheet" href="./library/fontawesome/fontawesome.css">
     <script src="./library/jquery-3.6.0.min.js"></script>
     <script src="./library/bootstrap.js"></script>
     <style>
