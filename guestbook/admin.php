@@ -296,12 +296,6 @@
 
 </html>
 <script>
-    $("#addNewMsg").on("click", () => {
-        $.get("msg_form.php", (form) => {
-            $(".msg-form").html(form)
-            $(".msg-form").removeClass("d-none")
-        })
-    })
 
     $(".post-top").on("click", function() {
         let id = $(this).data('id');
@@ -311,6 +305,8 @@
             location.reload();
         })
     })
+
+    //管理者編輯玩家留言時直接秀出玩家留言表單
     $(".edit-icon").on("click", function() {
         let id = $(this).data('id')
         $.get("msg_form.php", {
@@ -340,10 +336,12 @@
         })
     })
 
+    //管理者回覆留言時彈出回覆留言表單
     $(".admin-reply").on("click", function() {
         $(this).parents('.admin-btns').siblings('.user-edit').show();
     })
 
+    //回覆留言表單送出
     $(".btn-edit").on("click", function() {
 
         let id = $(this).data('id')
@@ -357,10 +355,12 @@
 
     })
 
+    //取消回覆留言
     $(".btn-cancel").on("click", function() {
         $(this).parents('.user-edit').hide()
     })
 
+    //刪除玩家留言
     function delMsg(id) {
         $.post('admin_del.php', {
             id
@@ -368,6 +368,8 @@
             location.reload();
         })
     }
+
+    //送出留言表單
     $("#addMsg").on('submit',(e)=>{
     let serial = $("#addMsg input[name='serial']").val();
         let name = $("#addMsg input[name='name']").val();
@@ -395,43 +397,4 @@
         }
 })
 
-    function login() {
-        let acc = $("input[name='acc']").val();
-        let pw = $("input[name='pw']").val();
-        let num = $("input[name='num']").val();
-        $.post('chknum.php', {
-            num
-        }, (res) => {
-            if (res) {
-                $.post('login.php', {
-                    acc,
-                    pw
-                }, (res) => {
-                    res = JSON.parse(res);
-                    if (res.status == 'error') {
-                        alert("帳號或密碼錯誤");
-                    } else {
-                        location.href = 'admin.php';
-                    }
-                })
-            } else {
-                alert("驗證碼錯誤請重新輸入")
-                makeNum()
-            }
-
-        })
-
-    }
-
-    //登入畫面被呼叫時,同時去後端撈驗證碼
-    $(".admin").on('click', () => {
-        $("#admin").show();
-        makeNum();
-    })
-
-    function makeNum() {
-        $.get("vernum.php", (num) => {
-            $("#vernum").text(num)
-        })
-    }
 </script>
