@@ -25,7 +25,11 @@
         align-items: center;
 
     }
-
+    /*定義每一橫列最小高度為頁面高度,上下方會扣除導覽列的3.5rem高度*/
+    .row-height{
+        min-height:100vh;
+        padding:3.5rem 0 ;
+    }
     nav a{
         color:white;
     }
@@ -89,7 +93,7 @@
     <!--留言板區塊-->
     <a name="guestboard">
         <!--留言區橫幅-->
-        <div class="vh-100 overflow-hidden">
+        <div class="row-height overflow-hidden">
 
             <!--留言內容區-->
             <div id="guestbook" class="container">
@@ -205,7 +209,7 @@
 
         <!--最新消息與參賽配對區-->
         <a name="gameboard">
-            <div class="vh-100  overflow-hidden">
+            <div class="row-height  overflow-hidden">
                 <div class="container">
                     <button class="btn-reg btn btn-primary" >我要參賽</button>
                 </div>
@@ -216,8 +220,59 @@
                 <!--配對結果-->
                 <h2 class="text-center">最新消息與競賽配對公告</h2>
                 <div id="match" class="container bg-light h-75 border rounded-lg p-5">
-                    ds
+                    <!--已配對玩家區-->
+                    <h3 class='text-center'>已配對玩家</h3>
+                    <div class="d-flex flex-wrap w-100 justify-content-between">
+                        <?php
+                        //先撈出所有已配對的玩家
+                        $matchs=$pdo->query("select * from `match_player` where `group_tag`!='0'")->fetchAll();
+                        //宣告一個空陣列來存放各組玩家
+                        $groups=[];
+                        foreach($matchs as $player){
+                            //使用group_tag欄位把同組的玩家放在同一個陣列中
+                            $groups[$player['group_tag']][]=$player;
+                        }
 
+                        //使用迴圈讀出每一組配對資料
+                        foreach($groups as $group){
+                        ?>
+
+                            <!--每一組以白底帶陰影的圓邊方塊存放玩家資料-->
+                            <div class="shadow bg-white rounded d-flex my-4">
+                            <?php 
+                                //使用迴圈讀出每一組的玩家
+                                foreach($group as $player){
+                            ?>
+                                <div class="p-4 text-center">
+                                    <div class="rounded-circle bg-img" style="background-image:url('./img/<?=$player['img'];?>');width:6rem;height:6rem;"></div>
+                                    <div><?=$player['name'];?></div>
+                                </div>
+                            <?php
+                                }
+                                ?>
+                        </div>
+                        <?php
+                        }
+                        ?>
+                    </div>
+                    <!--尚未配對玩家區-->
+                    <h3 class='text-center'>等待配對玩家</h3>
+                    <div class="d-flex flex-wrap w-100 bg-white shadow my-4">
+                    
+                    <?php
+                    //撈出所有尚未配對的玩家
+                    $noMatchs=$pdo->query("select * from `match_player` where `player`='0'")->fetchAll();
+                    
+                    foreach($noMatchs as $player){
+                    ?>
+                    <div class="p-4 text-center rounded">
+                        <div class="rounded-circle bg-img" style="background-image:url('./img/<?=$player['img'];?>');width:6rem;height:6rem;"></div>
+                        <div><?=$player['name'];?></div>
+                    </div>
+                    <?php
+                    }
+                    ?>
+                    </div>
                 </div>
             </div>
 
