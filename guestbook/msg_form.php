@@ -29,16 +29,16 @@ if(isset($id)){
         <label class="justify-content-center col-3 input-group-text" for="email">E-mail</label>
         <?php
         if(isset($id) && $msg['show_email']==1){
-            ?>
-            <input class="form-control" required type="text" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
+        ?>
+            <input class="form-control" required type="text" pattern="^\w+@\w+\.\w+(\.\w+)*" oninput="setCustomValidity(' ')" onchange="setCustomValidity('')" oninvalid="setCustomValidity('需包含「@」及至少 1 個「.」')" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
         <?php
         }else if(isset($id) && $msg['show_email']==0){
         ?>
-        <input class="form-control" required type="password" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
+        <input class="form-control" required type="password" pattern="^\w+@\w+\.\w+(\.\w+)*"  oninput="setCustomValidity(' ')" onchange="setCustomValidity('')" oninvalid="setCustomValidity('需包含「@」及至少 1 個「.」')" name="email" id="email" value="<?=isset($id)?$msg['email']:'';?>">
         <?php
         }else{        
         ?>
-        <input class="form-control" required type="text" name="email" id="email" value="">
+        <input class="form-control" required type="email" pattern="^\w+@\w+\.\w+(\.\w+)*" oninput="setCustomValidity(' ')" onchange="setCustomValidity('')" oninvalid="setCustomValidity('需包含「@」及至少 1 個「.」')" name="email" id="email">
         <?php
         }
         ?>
@@ -56,15 +56,15 @@ if(isset($id)){
         <?php
         if(isset($id) && $msg['show_email']==1){
         ?>
-            <input class="form-control" required type="tel" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
+            <input class="form-control" required  pattern="^\d[\d\-]+" data-txt="連絡電話只能包含數字及「-」"  oninput="setCustomValidity(' ')" onchange="setCustomValidity('')" oninvalid="setCustomValidity('連絡電話只能包含數字及「-」')" type="tel" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
         <?php   
         }else if(isset($id) && $msg['show_email']==0){
         ?>
-            <input class="form-control" required type="password" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
+            <input class="form-control" required  pattern="^\d[\d\-]+" data-txt="連絡電話只能包含數字及「-」"  oninput="setCustomValidity(' ')" onchange="setCustomValidity('')" oninvalid="setCustomValidity('連絡電話只能包含數字及「-」')" type="password" name="tel" id="tel" value="<?=isset($id)?$msg['tel']:'';?>">
         <?php
         }else{
         ?>
-            <input class="form-control" required type="tel" name="tel" id="tel" value="">
+            <input class="form-control" required  pattern="^\d[\d\-]+" data-txt="連絡電話只能包含數字及「-」"  oninput="setCustomValidity(' ')" onchange="setCustomValidity('')" oninvalid="setCustomValidity('連絡電話只能包含數字及「-」')" type="tel" name="tel" id="tel">
         <?php
         }
         ?>
@@ -94,9 +94,13 @@ if(isset($id)){
         <?php
         if(isset($id)){
             echo "<input type='hidden' name='id' value='$id'>";
+            echo "<input type='hidden' name='type' value='edit'>";
+        }else{
+            echo "<input type='hidden' name='type' value='add'>";
         }
         ?>
-        <input class="btn btn-primary" type="button" value="送出" onclick="send('<?=isset($id)?'edit':'add';?>')">
+
+        <input class="btn btn-primary" type="submit" value="送出">
         <input class="btn btn-warning" type="reset" value="重置">
 
     </div>

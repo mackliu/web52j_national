@@ -108,7 +108,7 @@
                 </div>
 
                 <!--留言列表-->
-                <div id="msg-list" class="container overflow-auto border rounded-lg bg-light py-5 my-3" style="height:75vh">
+                <div id="msg-list" class="container border rounded-lg bg-light py-5 my-3">
                     <?php
                     $sql = "SELECT * FROM `guestbook` 
                               Order BY `top` DESC, `created_time` DESC";
@@ -346,10 +346,10 @@
             }
         })
     })
-
-    function send(type) {
-        let serial = $("#addMsg input[name='serial']").val();
+$("#addMsg").on('submit',(e)=>{
+    let serial = $("#addMsg input[name='serial']").val();
         let name = $("#addMsg input[name='name']").val();
+        let type=$("input[name='type']").val();
         if (serial.length != 4) {
             alert("序號只能4位數字");
         } else {
@@ -360,16 +360,19 @@
                     if (parseInt(res)) {
                         alert("姓名重覆");
                     } else {
+                        //使用unbind先解除事件再送出
+                        $("#addMsg").unbind('submit')
                         $("#addMsg").submit()
                     }
                 })
             } else {
+                //使用unbind先解除事件再送出
+                $("#addMsg").unbind('submit')
                 $("#addMsg").submit()
             }
         }
-
-    }
-
+})
+ 
     function login() {
         let acc = $("input[name='acc']").val();
         let pw = $("input[name='pw']").val();

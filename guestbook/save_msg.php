@@ -24,5 +24,10 @@ $sql="UPDATE `guestbook`
     WHERE `id`='$id'";
 
 $pdo->exec($sql);
-header("location:index.php");
+
+//header("location:index.php");
+//讓頁面導向之前來的地方
+//從前台來的請求回到前台,從後台來的請求回到後台
+header('Location: ' . $_SERVER['HTTP_REFERER']);
+exit;
 ?>
