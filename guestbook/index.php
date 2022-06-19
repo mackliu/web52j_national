@@ -1,4 +1,4 @@
-<?php include_once "db.php";?>
+<?php include_once "db.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,34 +12,36 @@
     <script src="./library/jquery-3.6.0.min.js"></script>
     <script src="./library/bootstrap.js"></script>
     <style>
-    header {
-        height: 50vh;
-        background:url('./img/main.jpg');
-        background-repeat: no-repeat;
-        background-size:cover;
-        background-position:center;
-        color:white;
-        text-shadow: 2px 2px 15px #ccc;
-        display:flex;
-        justify-content: center;
-        align-items: center;
+        header {
+            height: 50vh;
+            background: url('./img/main.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 2px 2px 15px #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
 
-    }
-    /*定義每一橫列最小高度為頁面高度,上下方會扣除導覽列的3.5rem高度*/
-    .row-height{
-        min-height:100vh;
-        padding:3.5rem 0 ;
-    }
-    nav a{
-        color:white;
-    }
+        }
 
-    .bg-img{
-        background-size:cover;
-        background-repeat:no-repeat;
-        background-position:center;
-        background-color:lightgray;
-    }
+        /*定義每一橫列最小高度為頁面高度,上下方會扣除導覽列的3.5rem高度*/
+        .row-height {
+            min-height: 100vh;
+            padding: 3.5rem 0;
+        }
+
+        nav a {
+            color: white;
+        }
+
+        .bg-img {
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-color: lightgray;
+        }
     </style>
 </head>
 
@@ -108,100 +110,99 @@
                 <!--留言列表-->
                 <div id="msg-list" class="container overflow-auto border rounded-lg bg-light py-5 my-3" style="height:75vh">
                     <?php
-                        $sql="SELECT * FROM `guestbook` 
+                    $sql = "SELECT * FROM `guestbook` 
                               Order BY `top` DESC, `created_time` DESC";
-                        $rows=$pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-                        foreach($rows as $row){
+                    $rows = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+                    foreach ($rows as $row) {
                     ?>
-                    <div class="msg position-relative col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex" style="min-height:6rem">
-                        <!--TOP顯示-->
-                        <?php if($row['top']==1){
-                        ?>
-                            <div class="position-absolute d-flex justify-content-center bg-primary text-white align-items-center" style="width:3rem;height:3rem;z-index:99;top:-0.15rem;left:-0.15rem">TOP</div>
-                        <?php
-                        }
-                        ?>
-                         <div class="user-edit position-absolute p-3" style="right:0;background:rgba(100,200,255,0.7);z-index:99;display:none">
-                            <input type="number" name="serial" class="edit-num d-block">
-                            <button class="btn-edit btn btn-warning" data-name="<?=$row['name']?>" data-id="<?=$row['id'];?>" >編輯</button>
-                            <button class="btn-del btn btn-danger"  data-name="<?=$row['name']?>" data-id="<?=$row['id'];?>" >刪除</button>
-                         </div>   
-                        <!--右側-->
-                        <div class="user-info col-2">
-                            <!--顯示圖片或替代圖片-->
-                            <?php
-                            if($row['del']==0){
+                        <div class="msg position-relative col-10 my-3 mx-auto border rounded bg-white p-3 shadow-sm d-flex" style="min-height:6rem">
+                            <!--TOP顯示-->
+                            <?php if ($row['top'] == 1) {
                             ?>
-                                <div class="rounded-circle  border-0 my-1 mx-auto bg-img" 
-                                     style="width:6rem;height:6rem;background-image:url('./img/<?=$row['img'];?>');">
-                                </div>
+                                <div class="position-absolute d-flex justify-content-center bg-primary text-white align-items-center" style="width:3rem;height:3rem;z-index:99;top:-0.15rem;left:-0.15rem">TOP</div>
                             <?php
                             }
                             ?>
-                            <!--顯示玩家名字並置中-->
-                            <div class="text-center m-1">
-                                <?=$row['name'];?>&nbsp;
-                                <?php 
-                                if($row['del']==0){
+                            <div class="user-edit position-absolute p-3" style="right:0;background:rgba(100,200,255,0.7);z-index:99;display:none">
+                                <input type="number" name="serial" class="edit-num d-block">
+                                <button class="btn-edit btn btn-warning" data-name="<?= $row['name'] ?>" data-id="<?= $row['id']; ?>">編輯</button>
+                                <button class="btn-del btn btn-danger" data-name="<?= $row['name'] ?>" data-id="<?= $row['id']; ?>">刪除</button>
+                            </div>
+                            <!--右側-->
+                            <div class="user-info col-2">
+                                <!--顯示圖片或替代圖片-->
+                                <?php
+                                if ($row['del'] == 0) {
                                 ?>
-                                <span class="edit-icon">
-                                    <i class="fas fa-edit "></i>
-                                </span>
-                                
+                                    <div class="rounded-circle  border-0 my-1 mx-auto bg-img" style="width:6rem;height:6rem;background-image:url('./img/<?= $row['img']; ?>');">
+                                    </div>
                                 <?php
                                 }
                                 ?>
-                            </div>
-                        </div>
-                        <div class="user-msg col-9 position-relative">
-
-                            <div class="col-12">
-                                <!--顯示玩家留言-->
-                            <?=($row['del']==0)?$row['msg']:"<span class='text-danger'>**玩家已自行刪除內容**</span>"?>
-                            <?php
-                                if($row['admin_reply']!=''){
-                                    echo "<hr style='width:85%'>";
-                                    echo "管理者回覆:";
-                                    echo $row['admin_reply'];
-                                }
-                            ?>  
-                            </div>
-
-                            <!--留言區底部資訊區-->
-                            <div class="position-absolute col-12" style="bottom:0">
-                                <!--顯示玩家聯絡資訊-->
-                                <div class="user-containt d-flex justify-content-start px-2">
+                                <!--顯示玩家名字並置中-->
+                                <div class="text-center m-1">
+                                    <?= $row['name']; ?>&nbsp;
                                     <?php
-                                    if($row['del']==0){
-                                        if($row['show_tel']==1){
-                                            echo "<div class='mr-4'><i class='fas fa-phone'></i> : {$row['tel']}</div>";
-                                        }
-                                        if($row['show_email']==1){
-                                            echo "<div><i class='fas fa-envelope'></i> : {$row['email']}</div>";
-                                        }
-                                    }
-    
-                               ?>
-                                </div>
-                                <!--顯示留言時間-->
-                                <div class="time-info d-flex justify-content-between px-2">
-                                    <div>
-                                    <?php if($row['del']==1){  ?>
-                                     刪除於:<?=$row['updated_time'];?>
-                                    <?php
-                                    }elseif($row['created_time']!=$row['updated_time']){
+                                    if ($row['del'] == 0) {
                                     ?>
-                                     修改於:<?=$row['updated_time'];?>
-                                    <?php  } ?>
+                                        <span class="edit-icon">
+                                            <i class="fas fa-edit "></i>
+                                        </span>
+
+                                    <?php
+                                    }
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="user-msg col-9 position-relative">
+
+                                <div class="col-12">
+                                    <!--顯示玩家留言-->
+                                    <?= ($row['del'] == 0) ? $row['msg'] : "<span class='text-danger'>**玩家已自行刪除內容**</span>" ?>
+                                    <?php
+                                    if ($row['admin_reply'] != '') {
+                                        echo "<hr style='width:85%'>";
+                                        echo "管理者回覆:";
+                                        echo $row['admin_reply'];
+                                    }
+                                    ?>
+                                </div>
+
+                                <!--留言區底部資訊區-->
+                                <div class="position-absolute col-12" style="bottom:0">
+                                    <!--顯示玩家聯絡資訊-->
+                                    <div class="user-containt d-flex justify-content-start px-2">
+                                        <?php
+                                        if ($row['del'] == 0) {
+                                            if ($row['show_tel'] == 1) {
+                                                echo "<div class='mr-4'><i class='fas fa-phone'></i> : {$row['tel']}</div>";
+                                            }
+                                            if ($row['show_email'] == 1) {
+                                                echo "<div><i class='fas fa-envelope'></i> : {$row['email']}</div>";
+                                            }
+                                        }
+
+                                        ?>
                                     </div>
-                                    <div>發表於:<?=$row['created_time'];?></div>
+                                    <!--顯示留言時間-->
+                                    <div class="time-info d-flex justify-content-between px-2">
+                                        <div>
+                                            <?php if ($row['del'] == 1) {  ?>
+                                                刪除於:<?= $row['updated_time']; ?>
+                                            <?php
+                                            } elseif ($row['created_time'] != $row['updated_time']) {
+                                            ?>
+                                                修改於:<?= $row['updated_time']; ?>
+                                            <?php  } ?>
+                                        </div>
+                                        <div>發表於:<?= $row['created_time']; ?></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
                     <?php
-            }
-            ?>
+                    }
+                    ?>
                 </div>
 
             </div>
@@ -211,7 +212,7 @@
         <a name="gameboard">
             <div class="row-height  overflow-hidden">
                 <div class="container">
-                    <button class="btn-reg btn btn-primary" >我要參賽</button>
+                    <button class="btn-reg btn btn-primary">我要參賽</button>
                 </div>
                 <!--報名參賽表單-->
                 <div class="reg-form d-none container">
@@ -222,218 +223,234 @@
                 <div id="match" class="container bg-light h-75 border rounded-lg p-5">
                     <!--已配對玩家區-->
                     <h3 class='text-center'>已配對玩家</h3>
-                    <div class="d-flex flex-wrap w-100 justify-content-between">
+                    <div class="d-flex flex-wrap w-100">
                         <?php
                         //先撈出所有已配對的玩家
-                        $matchs=$pdo->query("select * from `match_player` where `group_tag`!='0'")->fetchAll();
+                        $matchs = $pdo->query("select * from `match_player` where `group_tag`!='0'")->fetchAll();
                         //宣告一個空陣列來存放各組玩家
-                        $groups=[];
-                        foreach($matchs as $player){
+                        $groups = [];
+                        foreach ($matchs as $player) {
                             //使用group_tag欄位把同組的玩家放在同一個陣列中
-                            $groups[$player['group_tag']][]=$player;
+                            $groups[$player['group_tag']][] = $player;
                         }
 
                         //使用迴圈讀出每一組配對資料
-                        foreach($groups as $group){
+                        foreach ($groups as $group) {
                         ?>
-
-                            <!--每一組以白底帶陰影的圓邊方塊存放玩家資料-->
-                            <div class="shadow bg-white rounded d-flex my-4">
-                            <?php 
-                                //使用迴圈讀出每一組的玩家
-                                foreach($group as $player){
-                            ?>
-                                <div class="p-4 text-center">
-                                    <div class="rounded-circle bg-img" style="background-image:url('./img/<?=$player['img'];?>');width:6rem;height:6rem;"></div>
-                                    <div><?=$player['name'];?></div>
+                            <!--建立一個1/3寬度的空間來放置已配對資料-->
+                            <div class="my-4 px-3 col-4">
+                                <!--建立一個白底圓邊帶陰影的區塊-->
+                                <div class="w-100 position-relative bg-white shadow rounded d-flex justify-content-around">
+                                    <?php
+                                    //使用迴圈讀出每一組的玩家
+                                    foreach ($group as $player) {
+                                    ?>
+                                        <div class="p-4 text-center">
+                                            <div class="rounded-circle bg-img" style="background-image:url('./img/<?= $player['img']; ?>');width:6rem;height:6rem;">
+                                            </div>
+                                            <div><?= $player['name']; ?></div>
+                                        </div>
+                                    <?php
+                                    }
+                                    ?>
                                 </div>
-                            <?php
-                                }
-                                ?>
-                        </div>
+                            </div>
                         <?php
                         }
                         ?>
                     </div>
                     <!--尚未配對玩家區-->
                     <h3 class='text-center'>等待配對玩家</h3>
-                    <div class="d-flex flex-wrap w-100 bg-white shadow my-4">
-                    
-                    <?php
-                    //撈出所有尚未配對的玩家
-                    $noMatchs=$pdo->query("select * from `match_player` where `player`='0'")->fetchAll();
-                    
-                    foreach($noMatchs as $player){
-                    ?>
-                    <div class="p-4 text-center rounded">
-                        <div class="rounded-circle bg-img" style="background-image:url('./img/<?=$player['img'];?>');width:6rem;height:6rem;"></div>
-                        <div><?=$player['name'];?></div>
-                    </div>
-                    <?php
-                    }
-                    ?>
+                    <div class="col-12 px-3">
+                        <div class="d-flex flex-wrap bg-white shadow my-4 pb-4 position-relative">
+                            <?php
+                            //撈出所有尚未配對的玩家
+                            $noMatchs = $pdo->query("select * from `match_player` where `player`='0'")->fetchAll();
+
+                            foreach ($noMatchs as $player) {
+                            ?>
+                                <div class="p-4 text-center rounded">
+                                    <div class="rounded-circle bg-img" style="background-image:url('./img/<?= $player['img']; ?>');width:6rem;height:6rem;">
+                                    </div>
+                                    <div><?= $player['name']; ?></div>
+                                </div>
+                            <?php
+                            }
+                            ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-
             </div>
 </body>
 
 </html>
 <script>
-$("#addNewMsg").on("click",()=>{
-    $.get("msg_form.php",(form)=>{
-        $(".msg-form").html(form)
-        $(".msg-form").removeClass("d-none")
+    $("#addNewMsg").on("click", () => {
+        $.get("msg_form.php", (form) => {
+            $(".msg-form").html(form)
+            $(".msg-form").removeClass("d-none")
+        })
     })
-})
 
-$(".btn-reg").on("click",function(){
-    $.get("reg_form.php",(form)=>{
-        $('.reg-form').html(form)
-        $(".reg-form").removeClass('d-none');
+    $(".btn-reg").on("click", function() {
+        $.get("reg_form.php", (form) => {
+            $('.reg-form').html(form)
+            $(".reg-form").removeClass('d-none');
+        })
     })
-})
 
-$(".edit-icon").on("click",function(){
-    $(this).parents('.user-info').siblings('.user-edit').show();
-})
-
-$(".btn-edit").on("click",function(){
-    let name=$(this).data('name')
-    let id=$(this).data('id')
-    let serial=$(this).siblings('.edit-num').val()
-    $.post("chk_serial.php",{name,serial},(res)=>{
-        console.log(res)
-        if(parseInt(res)===1){
-           $.get("msg_form.php",{id},(form)=>{
-                $(".msg-form").html(form)
-                $(".msg-form").removeClass('d-none')
-           })
-        }else{
-            console.log('序號錯誤')
-        }
+    $(".edit-icon").on("click", function() {
+        $(this).parents('.user-info').siblings('.user-edit').show();
     })
-    
-})
 
-$(".btn-del").on("click",function(){
-    let name=$(this).data('name')
-    let id=$(this).data('id')
-    let serial=$(this).siblings('.edit-num').val()
-    $.post("chk_serial.php",{name,serial},(res)=>{
-        console.log(res)
-        if(parseInt(res)===1){
-            $.post("user_del.php",{id},()=>{ location.reload() })
-        }else{
-            alert('序號錯誤')
-        }
+    $(".btn-edit").on("click", function() {
+        let name = $(this).data('name')
+        let id = $(this).data('id')
+        let serial = $(this).siblings('.edit-num').val()
+        $.post("chk_serial.php", {
+            name,
+            serial
+        }, (res) => {
+            console.log(res)
+            if (parseInt(res) === 1) {
+                $.get("msg_form.php", {
+                    id
+                }, (form) => {
+                    $(".msg-form").html(form)
+                    $(".msg-form").removeClass('d-none')
+                })
+            } else {
+                console.log('序號錯誤')
+            }
+        })
+
     })
-})
 
-function send(type){
-    let serial = $("#addMsg input[name='serial']").val();
-    let name=$("#addMsg input[name='name']").val();
-    if (serial.length != 4) {
-        alert("序號只能4位數字");
-    }else{
-        if(type=='add'){
-            $.post('chk_name.php', {
-                 name
-             }, (res) => {
-                 if (parseInt(res)) {
-                     alert("姓名重覆");
-                 } else {
-                     $("#addMsg").submit()
-                 }
-             }) 
-        }else{
-            $("#addMsg").submit()
-        }
-    } 
+    $(".btn-del").on("click", function() {
+        let name = $(this).data('name')
+        let id = $(this).data('id')
+        let serial = $(this).siblings('.edit-num').val()
+        $.post("chk_serial.php", {
+            name,
+            serial
+        }, (res) => {
+            console.log(res)
+            if (parseInt(res) === 1) {
+                $.post("user_del.php", {
+                    id
+                }, () => {
+                    location.reload()
+                })
+            } else {
+                alert('序號錯誤')
+            }
+        })
+    })
 
-}
-
-function login() {
-    let acc = $("input[name='acc']").val();
-    let pw = $("input[name='pw']").val();
-    let num = $("input[name='num']").val();
-    $.post('chknum.php', {
-        num
-    }, (res) => {
-        if (res) {
-            $.post('login.php', {
-                acc,
-                pw
-            }, (res) => {
-                res = JSON.parse(res);
-                if (res.status == 'error') {
-                    alert("帳號或密碼錯誤");
-                } else {
-                    location.href='admin.php';
-                }
-            })
+    function send(type) {
+        let serial = $("#addMsg input[name='serial']").val();
+        let name = $("#addMsg input[name='name']").val();
+        if (serial.length != 4) {
+            alert("序號只能4位數字");
         } else {
-            alert("驗證碼錯誤請重新輸入")
-            makeNum()
+            if (type == 'add') {
+                $.post('chk_name.php', {
+                    name
+                }, (res) => {
+                    if (parseInt(res)) {
+                        alert("姓名重覆");
+                    } else {
+                        $("#addMsg").submit()
+                    }
+                })
+            } else {
+                $("#addMsg").submit()
+            }
         }
 
+    }
+
+    function login() {
+        let acc = $("input[name='acc']").val();
+        let pw = $("input[name='pw']").val();
+        let num = $("input[name='num']").val();
+        $.post('chknum.php', {
+            num
+        }, (res) => {
+            if (res) {
+                $.post('login.php', {
+                    acc,
+                    pw
+                }, (res) => {
+                    res = JSON.parse(res);
+                    if (res.status == 'error') {
+                        alert("帳號或密碼錯誤");
+                    } else {
+                        location.href = 'admin.php';
+                    }
+                })
+            } else {
+                alert("驗證碼錯誤請重新輸入")
+                makeNum()
+            }
+
+        })
+
+    }
+
+    //登入畫面被呼叫時,同時去後端撈驗證碼
+    $(".admin").on('click', () => {
+        $("#admin").show();
+        makeNum();
     })
 
-}
+    function makeNum() {
+        $.get("vernum.php", (num) => {
+            cav(num)
+            //$("#vernum").text(num)
+        })
+    }
 
-//登入畫面被呼叫時,同時去後端撈驗證碼
-$(".admin").on('click', () => {
-    $("#admin").show();
-    makeNum();
-})
+    function cav(str) {
+        let canvas = document.getElementById('numboard');
+        let ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let height = 42;
+        let width = $("#vernum").width();
+        canvas.height = height;
+        canvas.width = width;
 
-function makeNum() {
-    $.get("vernum.php", (num) => {
-        cav(num)
-        //$("#vernum").text(num)
-    })
-}
-function cav(str){
-let canvas=document.getElementById('numboard');
-let ctx=canvas.getContext('2d');
-ctx.clearRect(0, 0, canvas.width, canvas.height);
-let height=42;
-let width=$("#vernum").width();
-canvas.height=height;
-canvas.width=width;
+        ctx.font = "36px Arial";
+        ctx.fillStyle = "#000000";
+        ctx.textBaseline = "top";
+        strgap = (width) / 4;
+        let color = ['#0000FF', '#00FF00', '#FF0000', '#f9dc0e', '#c76104', '#b800f4'];
+        for (let i = 0; i < str.length; i++) {
+            let char = str.substr(i, 1);
+            let charWidth = ctx.measureText(char)
+            let strX = Math.random() * ((strgap - charWidth.width) / 2) + (strgap * i);
+            let strY = Math.random() * 10;
 
-ctx.font="36px Arial";
-ctx.fillStyle="#000000";
-ctx.textBaseline="top";
-strgap=(width)/4;
-let color=['#0000FF','#00FF00','#FF0000','#f9dc0e','#c76104','#b800f4'];
-for(let i=0;i<str.length;i++){
-    let char=str.substr(i,1);
-    let charWidth=ctx.measureText(char)
-    let strX=Math.random()*((strgap-charWidth.width)/2)+(strgap*i);
-    let strY=Math.random()*10;
+            color.sort(() => Math.random() - 0.5);
+            ctx.fillStyle = color.pop();
+            ctx.fillText(char, strX, strY)
+        }
+        color = ['#0000FF', '#00FF00', '#FF0000', '#f9dc0e', '#c76104', '#b800f4']
+        let lines = Math.floor(Math.random() * 3 + 3)
+        for (let i = 0; i < lines; i++) {
+            color.sort(() => Math.random() - 0.5);
+            ctx.lineWidth = 0.5;
+            ctx.strokeStyle = color.pop();
+            ctx.beginPath()
+            let startTop = Math.floor(Math.random() * height);
+            let startLeft = Math.floor(Math.random() * 50)
+            let endTop = Math.floor(Math.random() * height);
+            let endRight = Math.floor(Math.random() * 50 + width - 50)
+            ctx.moveTo(startLeft, startTop)
+            ctx.lineTo(endRight, endTop)
+            ctx.closePath()
+            ctx.stroke()
+        }
 
-    color.sort(() => Math.random() - 0.5);
-    ctx.fillStyle=color.pop();
-    ctx.fillText(char,strX,strY)
-}
-color=['#0000FF','#00FF00','#FF0000','#f9dc0e','#c76104','#b800f4']
-let lines=Math.floor(Math.random()*3+3)
-for(let i=0;i<lines;i++){
-    color.sort(() => Math.random() - 0.5);
-    ctx.lineWidth=0.5;
-    ctx.strokeStyle=color.pop();
-    ctx.beginPath()
-    let startTop=Math.floor(Math.random()*height);
-    let startLeft=Math.floor(Math.random()*50)
-    let endTop=Math.floor(Math.random()*height);
-    let endRight=Math.floor(Math.random()*50+width-50)
-    ctx.moveTo(startLeft,startTop)
-    ctx.lineTo(endRight,endTop)
-    ctx.closePath()
-    ctx.stroke()
-}
-
-}
+    }
 </script>
