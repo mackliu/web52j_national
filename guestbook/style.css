@@ -1,0 +1,29 @@
+header {
+    height: 50vh;
+    background: url('./img/main.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    text-shadow: 2px 2px 15px #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/*定義每一橫列最小高度為頁面高度,上下方會扣除導覽列的3.5rem高度*/
+.row-height {
+    min-height: 100vh;
+    padding: 3.5rem 0;
+}
+
+nav a {
+    color: white;
+}
+
+.bg-img {
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: lightgray;
+}
