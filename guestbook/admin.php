@@ -1,4 +1,4 @@
-<?php include_once "db.php"; ?>
+<?php include_once "./api/db.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,7 +28,7 @@
             <div class="col-5 d-flex justify-content-between text-white">
                 <a href="#guestboard">留言管理</a>
                 <a href="#gameboard">賽制管理</a>
-                <a href="#" onclick="location.href='logout.php'">登出</a>
+                <a href="#" onclick="location.href='./api/logout.php'">登出</a>
             </div>
         </div>
     </nav>

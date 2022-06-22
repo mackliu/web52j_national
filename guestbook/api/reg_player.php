@@ -29,5 +29,6 @@ if(!empty($wait_player)){
                 values('{$_POST['name']}','{$_POST['email']}','{$_POST['tel']}','{$img}')");
 }
 
-header('location:index.php');
+//處理完畢，將網頁導回首頁
+header('location:../index.php');
 ?>

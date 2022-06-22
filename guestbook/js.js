@@ -1,7 +1,7 @@
 /** 首頁玩家功能js */
 //新增留言按鈕
 $("#addNewMsg").on("click", () => {
-    $.get("msg_form_add.php", (form) => {
+    $.get("./form/msg_form_add.php", (form) => {
         $(".msg-form").html(form)
         $(".msg-form").removeClass("d-none")
     })
@@ -9,7 +9,7 @@ $("#addNewMsg").on("click", () => {
 
 //玩家參賽報名按鈕
 $(".btn-reg").on("click", function () {
-    $.get("reg_form.php", (form) => {
+    $.get("./form/reg_form.php", (form) => {
         $('.reg-form').html(form)
         $(".reg-form").removeClass('d-none');
     })
@@ -25,9 +25,9 @@ $(".btn-edit").on("click", function () {
     let name = $(this).data('name')
     let id = $(this).data('id')
     let serial = $(this).siblings('.edit-num').val()
-    $.post("chk_serial.php", { name, serial }, (res) => {
+    $.post("./api/chk_serial.php", { name, serial }, (res) => {
         if (parseInt(res) === 1) {
-            $.get("msg_form_edit.php", { id }, (form) => {
+            $.get("./form/msg_form_edit.php", { id }, (form) => {
                 $(".msg-form").html(form)
                 $(".msg-form").removeClass('d-none')
             })
@@ -43,13 +43,13 @@ $(".btn-del").on("click", function () {
     let name = $(this).data('name')
     let id = $(this).data('id')
     let serial = $(this).siblings('.edit-num').val()
-    $.post("chk_serial.php", {
+    $.post("./api/chk_serial.php", {
         name,
         serial
     }, (res) => {
         console.log(res)
         if (parseInt(res) === 1) {
-            $.post("user_del.php", { id }, () => {
+            $.post("./api/user_del.php", { id }, () => {
                 location.reload()
             })
         } else {
@@ -67,7 +67,7 @@ $("#addMsg").on('submit', (e) => {
         alert("序號只能4位數字");
     } else {
         if (type == 'add') {
-            $.post('chk_name.php', { name }, (res) => {
+            $.post('./api/chk_name.php', { name }, (res) => {
                 if (parseInt(res)) {
                     alert("姓名重覆");
                 } else {
@@ -89,11 +89,11 @@ function login() {
     let acc = $("input[name='acc']").val();
     let pw = $("input[name='pw']").val();
     let num = $("input[name='num']").val();
-    $.post('chknum.php', {
+    $.post('./api/chknum.php', {
         num
     }, (res) => {
         if (res) {
-            $.post('login.php', { acc, pw }, (res) => {
+            $.post('./api/login.php', { acc, pw }, (res) => {
                 res = JSON.parse(res);
                 if (res.status == 'error') {
                     alert("帳號或密碼錯誤");
@@ -116,7 +116,7 @@ $(".admin").on('click', () => {
 
 //向後台請求產生驗證碼
 function makeNum() {
-    $.get("vernum.php", (num) => {
+    $.get("./api/vernum.php", (num) => {
         cav(num)
         //$("#vernum").text(num)
     })
@@ -177,7 +177,7 @@ function cav(str) {
 //玩家留言置頂功能
 $(".post-top").on("click", function() {
     let id = $(this).data('id');
-    $.post('post_top.php', { id }, () => {
+    $.post('./api/post_top.php', { id }, () => {
         location.reload();
     })
 })
@@ -186,16 +186,14 @@ $(".post-top").on("click", function() {
 $(".btn-remove").on('click', function() {
     //把解除配對按鈕中的data-ids值以'-'來分割，會得到一個含有要解除配對的兩位玩家的id陣列
     let ids = $(this).data('ids').split('-');
-    $.post("remove_match.php", {
-        ids
-    }, (res) => {
+    $.post("./api/remove_match.php", {ids}, (res) => {
         location.reload();
     })
 })
 
 //亂數配對
 $(".btn-random").on('click', function() {
-    $.post("random_match.php", (res) => {
+    $.post("./api/random_match.php", (res) => {
         location.reload();
     })
 })
@@ -207,7 +205,7 @@ $(".admin-reply").on("click", function() {
 
 //刪除玩家留言
 function delMsg(id) {
-    $.post('admin_del.php', { id }, () => {
+    $.post('./api/admin_del.php', { id }, () => {
         location.reload();
     })
 }
@@ -220,7 +218,7 @@ $(".btn-cancel").on("click", function() {
 //管理者編輯玩家留言時直接秀出玩家留言表單
 $(".admin-edit-icon").on("click", function() {
     let id = $(this).data('id')
-    $.get("msg_form_edit.php", { id }, (form) => {
+    $.get("./form/msg_form_edit.php", { id }, (form) => {
         $(".msg-form").html(form)
         $(".msg-form").removeClass('d-none')
     })
@@ -230,7 +228,7 @@ $(".admin-edit-icon").on("click", function() {
 $(".btn-reply").on("click", function() {
     let id = $(this).data('id')
     let admin_reply = $(this).siblings('.edit-reply').val()
-    $.post("admin_reply.php", { id, admin_reply}, (res) => {
+    $.post("./api/admin_reply.php", { id, admin_reply}, (res) => {
         location.reload();
     })
 })

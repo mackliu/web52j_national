@@ -1,4 +1,4 @@
-<?php include_once "db.php"; ?>
+<?php include_once "./api/db.php"; ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +29,7 @@
                 <a href="#guestboard">玩家留言</a>
                 <a href="#gameboard" onclick="$('.reg-form').removeClass('d-none')">玩家參賽</a>
                 <!--使用jQuery的load函式以ajax的方來載入登入表單，載入後執行產生圖形驗證碼的makeNum()函式-->
-                <a href="#" onclick="$('#admin').load('login_form.php',()=>{makeNum()})">網站管理</a>
+                <a href="#" onclick="$('#admin').load('./form/login_form.php',()=>{makeNum()})">網站管理</a>
             </div>
         </div>
     </nav>

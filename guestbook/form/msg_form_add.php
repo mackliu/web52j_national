@@ -1,4 +1,4 @@
-<form id="addMsg" action="add_msg.php" method="post" enctype="multipart/form-data" class="p-5 mx-auto my-2 col-6">
+<form id="addMsg" action="./api/add_msg.php" method="post" enctype="multipart/form-data" class="p-5 mx-auto my-2 col-6">
     <h2 class="text-center">
         新增留言
         <input class="btn btn-info float-right" type="button" value="回留言列表" onclick="$('.msg-form').addClass('d-none')">

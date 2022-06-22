@@ -5,8 +5,7 @@ $reply=$_POST['admin_reply'];
 
 $sql="UPDATE `guestbook` 
       SET `admin_reply`='$reply'
-    WHERE `id`='$id'";
+      WHERE `id`='$id'";
 
 $pdo->exec($sql);
-//header("location:index.php");
 ?>

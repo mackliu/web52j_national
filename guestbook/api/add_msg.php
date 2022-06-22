@@ -10,5 +10,5 @@ $sql="INSERT into `guestbook` (`name`,`email`,`tel`,`msg`,`serial`,`img`)
                         values('{$_POST['name']}','{$_POST['email']}','{$_POST['tel']}','{$_POST['msg']}','{$_POST['serial']}','$img')";
 
 $pdo->exec($sql);
-header("location:index.php");
+header("location:../index.php");
 ?>

@@ -1,12 +1,12 @@
 <?php
-include_once "db.php";
+include_once "../api/db.php";
 //取得網址傳來的參數留言id
 $id=$_GET['id'];
 
 //取得留言資料
 $msg=$pdo->query("select * from `guestbook` where `id`='$id'")->fetch(PDO::FETCH_ASSOC);
 ?>
-<form id="editMsg" action="save_msg.php" method="post" enctype="multipart/form-data" class="p-5 mx-auto my-2 col-6">
+<form id="editMsg" action="./api/save_msg.php" method="post" enctype="multipart/form-data" class="p-5 mx-auto my-2 col-6">
     <h2 class="text-center">
         編輯留言
         <input class="btn btn-info float-right" type="button" value="回留言列表"

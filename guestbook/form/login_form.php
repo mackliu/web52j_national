@@ -1,4 +1,4 @@
-<form action="login.php" method="post" class="p-5 mx-auto my-2 col-6">
+<form action="./api/login.php" method="post" class="p-5 mx-auto my-2 col-6">
     <h2 class="text-center">管理者登入</h2>
     <div class="form-group">
         <label class="d-block" for="acc">帳號</label>

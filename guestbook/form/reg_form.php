@@ -1,4 +1,4 @@
-<form id="regUser" action="reg_player.php" method="post" enctype="multipart/form-data" class="p-5 mx-auto my-2 col-6">
+<form id="regUser" action="./api/reg_player.php" method="post" enctype="multipart/form-data" class="p-5 mx-auto my-2 col-6">
     <h2 class="text-center">玩家參賽</h2>
     <div class="input-group my-2">
         <label class="justify-content-center col-3 input-group-text" for="name">姓名</label>
@@ -20,6 +20,5 @@
         <input class="btn btn-primary" type="submit" value="參賽">
         <input class="btn btn-warning" type="reset" value="重設">
         <input class="btn btn-info" type="button" onclick="$('.reg-form').addClass('d-none')" value="取消">
-
     </div>
 </form>
