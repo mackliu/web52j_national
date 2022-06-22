@@ -75,7 +75,6 @@ $msg=$pdo->query("select * from `guestbook` where `id`='$id'")->fetch(PDO::FETCH
     </div>
     <div class="text-center my-2">
         <input type='hidden' name='id' value='<?=$id;?>'>
-        <input type='hidden' name='type' value='edit'>
         <input class="btn btn-primary" type="submit" value="送出">
         <input class="btn btn-warning" type="reset" value="重置">
     </div>

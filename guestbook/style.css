@@ -1,3 +1,4 @@
+/*定義上方圖片區的版面呈現方式*/
 header {
     height: 50vh;
     background: url('./img/main.jpg');
@@ -17,10 +18,12 @@ header {
     padding: 3.5rem 0;
 }
 
+/*設定導覽列的連結文字為白色*/
 nav a {
     color: white;
 }
 
+/*設定背景的呈現方式*/
 .bg-img {
     background-size: cover;
     background-repeat: no-repeat;

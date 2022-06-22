@@ -2,6 +2,7 @@
 include_once "db.php";
 
 $img='';
+//判斷是否有上傳頭像
 if(!empty($_FILES['img']['tmp_name'])){
     $img=$_FILES['img']['name'];
     move_uploaded_file($_FILES['img']['tmp_name'],'./img/'.$img);

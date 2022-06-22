@@ -36,7 +36,6 @@
         <input class="form-control" required type="text" name="serial" id="serial">
     </div>
     <div class="text-center my-2">
-        <input type='hidden' name='type' value='add'>
         <input class="btn btn-primary" type="submit" value="送出">
         <input class="btn btn-warning" type="reset" value="重置">
     </div>

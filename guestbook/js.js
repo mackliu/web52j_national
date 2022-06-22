@@ -58,29 +58,40 @@ $(".btn-del").on("click", function () {
     })
 })
 
-//送出留言表單
+//送出新增留言表單
 $("#addMsg").on('submit', (e) => {
+    let serial = $("#addMsg input[name='serial']").val();
+    let name = $("#addMsg input[name='name']").val();
+
+    //先檢查序號是否為4位數
+    if (serial.length != 4) {
+        alert("序號只能4位數字");
+    } else {
+        //新增表單時需要先確認玩家姓名是否重覆
+        $.post('./api/chk_name.php', { name }, (res) => {
+            if (parseInt(res)) {
+                alert("姓名重覆");
+            } else {
+                //使用unbind先解除事件再送出
+                $("#addMsg").unbind('submit')
+                $("#addMsg").submit()
+            }
+        })
+    }
+})
+
+//送出編輯留言表單
+$("#editMsg").on('submit', (e) => {
     let serial = $("#addMsg input[name='serial']").val();
     let name = $("#addMsg input[name='name']").val();
     let type = $("input[name='type']").val();
     if (serial.length != 4) {
         alert("序號只能4位數字");
     } else {
-        if (type == 'add') {
-            $.post('./api/chk_name.php', { name }, (res) => {
-                if (parseInt(res)) {
-                    alert("姓名重覆");
-                } else {
-                    //使用unbind先解除事件再送出
-                    $("#addMsg").unbind('submit')
-                    $("#addMsg").submit()
-                }
-            })
-        } else {
-            //使用unbind先解除事件再送出
-            $("#addMsg").unbind('submit')
-            $("#addMsg").submit()
-        }
+        //編輯留言不用檢查帳號是否重覆
+        //使用unbind先解除事件再送出
+        $("#addMsg").unbind('submit')
+        $("#addMsg").submit()
     }
 })
 
@@ -89,20 +100,26 @@ function login() {
     let acc = $("input[name='acc']").val();
     let pw = $("input[name='pw']").val();
     let num = $("input[name='num']").val();
-    $.post('./api/chknum.php', {
-        num
-    }, (res) => {
+
+    //使用ajax先檢查驗證碼是否有錯
+    $.post('./api/chknum.php', {num}, (res) => {
         if (res) {
+
+            //接著檢查帳號密碼是否有錯
             $.post('./api/login.php', { acc, pw }, (res) => {
                 res = JSON.parse(res);
                 if (res.status == 'error') {
                     alert("帳號或密碼錯誤");
                 } else {
+
+                    //帳號密碼正確時導向後台頁面
                     location.href = 'admin.php';
                 }
             })
         } else {
             alert("驗證碼錯誤請重新輸入")
+
+            //驗證碼錯誤則產生一組新的驗證碼
             makeNum()
         }
     })
@@ -118,7 +135,7 @@ $(".admin").on('click', () => {
 function makeNum() {
     $.get("./api/vernum.php", (num) => {
         cav(num)
-        //$("#vernum").text(num)
+        //$("#vernum").text(num)  //不做圖形驗證，只是放入驗證文字
     })
 }
 
@@ -186,26 +203,33 @@ $(".post-top").on("click", function() {
 $(".btn-remove").on('click', function() {
     //把解除配對按鈕中的data-ids值以'-'來分割，會得到一個含有要解除配對的兩位玩家的id陣列
     let ids = $(this).data('ids').split('-');
-    $.post("./api/remove_match.php", {ids}, (res) => {
+    $.post("./api/remove_match.php", {ids}, () => {
+
+        //解除配對後重新載入頁面
         location.reload();
     })
 })
 
 //亂數配對
 $(".btn-random").on('click', function() {
-    $.post("./api/random_match.php", (res) => {
+    $.post("./api/random_match.php", () => {
+        //亂數配對完成後重新載入頁面
         location.reload();
     })
 })
 
 //管理者回覆留言時彈出回覆留言表單
 $(".admin-reply").on("click", function() {
+
+    //依照點擊時的dom逐層向上找到表單的dom
     $(this).parents('.admin-btns').siblings('.user-edit').show();
 })
 
 //刪除玩家留言
 function delMsg(id) {
     $.post('./api/admin_del.php', { id }, () => {
+
+        //刪除完成後重新載入頁面
         location.reload();
     })
 }
