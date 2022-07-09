@@ -1,7 +1,7 @@
 <?php
 include_once "db.php";
 
-//根據送過來的id資料把該id的留言資料中的`top`欄位設為1，表示置頂
+//根據送過來的id資料把留言資料取出
 $user=$pdo->query("select * from `guestbook` where `id`='{$_POST['id']}'")->fetch();
 
 //判斷使用者的置頂狀態，如果已經置頂則改為不置頂，如果不是置頂，則改為置頂

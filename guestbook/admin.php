@@ -64,6 +64,7 @@
                         <!--管理者功能區-->
                         <div class="admin-btns text-right position-absolute" style="z-index:10;right:5px">
                             <span class="mx-2 post-top" data-id="<?= $row['id']; ?>">
+                            <!--根據置頂狀況來決定要顯示的圖示為向上或向下-->
                             <?php if($row['top']==0){ ?>
                                 <i class="fas fa-sort-amount-up"></i></span>
                             <?php }else{ ?>
