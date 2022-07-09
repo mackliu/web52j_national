@@ -63,8 +63,12 @@
                     <?php } ?>
                         <!--管理者功能區-->
                         <div class="admin-btns text-right position-absolute" style="z-index:10;right:5px">
-                            <span class="mx-2 post-top" data-id="<?= $row['id']; ?>"><i
-                                    class="fas fa-sort-amount-up"></i></span>
+                            <span class="mx-2 post-top" data-id="<?= $row['id']; ?>">
+                            <?php if($row['top']==0){ ?>
+                                <i class="fas fa-sort-amount-up"></i></span>
+                            <?php }else{ ?>
+                                    <i class="fas fa-sort-amount-down"></i></span>    
+                            <?php } ?>
                             <span class="mx-2 admin-reply"><i class="fas fa-reply"></i></span>
                             <span class="mx-2 " onclick="delMsg(<?= $row['id']; ?>)"><i class="fas fa-trash"></i></span>
                         </div>
